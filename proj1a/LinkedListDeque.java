@@ -120,6 +120,10 @@ public class LinkedListDeque<T> {
         }
     }
 
+    public T getRecursive(int index){
+        return null;
+    }
+
     /*public static void main(String[] args) {
         LinkedListDeque x = new LinkedListDeque();
         LinkedListDeque y = new LinkedListDeque();
