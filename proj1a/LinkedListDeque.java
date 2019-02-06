@@ -3,10 +3,10 @@ public class LinkedListDeque<T> {
     private int size = 0;
 
     public class IntNode {
-        public IntNode prev;
-        public IntNode next;
-        public T item;
-        public IntNode(IntNode p, T i, IntNode n){
+        private IntNode prev;
+        private IntNode next;
+        private T item;
+        public IntNode(IntNode p, T i, IntNode n) {
             prev = p;
             next = n;
             item = i;
@@ -21,7 +21,7 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
-    public void addFirst(T x){
+    public void addFirst(T x) {
         if (size == 0){
             IntNode newNode = new IntNode(sentinel, x, sentinel);
             sentinel.next = newNode;
@@ -29,14 +29,14 @@ public class LinkedListDeque<T> {
             size += 1;
         } else {
             IntNode newNode = new IntNode(sentinel, x, sentinel.next);
-            sentinel.next = newNode;
             sentinel.next.prev = newNode;
+            sentinel.next = newNode;
             size += 1;
         }
     }
 
-    public void addLast(T x){
-        if (size == 0){
+    public void addLast(T x) {
+        if (size == 0) {
             IntNode newNode = new IntNode(sentinel, x, sentinel);
             sentinel.next = newNode;
             sentinel.prev = newNode;
@@ -49,22 +49,22 @@ public class LinkedListDeque<T> {
         }
     }
 
-    public boolean isEmpty(){
-        if (size == 0){
+    public boolean isEmpty() {
+        if (size == 0) {
             return true;
-        }else{
+        }else {
             return false;
         }
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
     public void printDeque() {
         IntNode copyNode = sentinel.next;
         //copyNode = sentinel.next;
-        for (int j = 0; j < size; j++){
+        for (int j = 0; j < size; j++) {
             System.out.print(copyNode.item + " ");
             copyNode = copyNode.next;
         }
@@ -88,17 +88,19 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         } else {
-            IntNode copyNode = sentinel.prev;
+            //IntNode copyNode = sentinel.prev;
             T lastItem = sentinel.prev.item;
             sentinel.prev.item = null;
-            sentinel.prev = copyNode.prev;
-            copyNode.next = sentinel;
+            sentinel.prev = sentinel.prev.prev;
+            sentinel.prev.next = sentinel;
+            //sentinel.prev = copyNode.prev;
+            //copyNode.next = sentinel;
             size -= 1;
             return lastItem;
         }
     }
 
-    public T get(int index){
+    public T get(int index) {
         if (size == 0) {
             return null;
         } else {
@@ -110,38 +112,21 @@ public class LinkedListDeque<T> {
         }
     }
 
-    public LinkedListDeque(LinkedListDeque other){
+    public LinkedListDeque(LinkedListDeque other) {
         LinkedListDeque newDeque = new LinkedListDeque();
-        if (isEmpty()){
-            newDeque.sentinel = other.sentinel;
+        if (isEmpty()) {
+            newDeque.sentinel = new IntNode(null, null, null);
         }
-        while (other.sentinel.next != sentinel){
+        while (other.sentinel.next.next != sentinel) {
             newDeque.addFirst(other.sentinel.next.item);
         }
     }
 
-    public T getRecursive(int index){
+    public T getRecursive(int index) {
         return null;
     }
 
     /*public static void main(String[] args) {
-        LinkedListDeque x = new LinkedListDeque();
-        LinkedListDeque y = new LinkedListDeque();
-        x.addFirst(10);
-        x.addFirst(9);
-        x.addFirst(8);
-        x.addFirst(7);
-        x.addFirst(6);
-        x.addFirst(5);
-        x.addLast(11);
-        x.printDeque();
-        System.out.println(x.size());
-        System.out.println(x.removeFirst());
-        x.printDeque();
-        System.out.println(x.size());
-        System.out.println(x.removeLast());
-        x.printDeque();
-        System.out.println(x.size());
-        System.out.println(x.get(4));
+
     }*/
 }
