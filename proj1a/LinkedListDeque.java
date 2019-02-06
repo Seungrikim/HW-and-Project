@@ -2,7 +2,7 @@ public class LinkedListDeque<T> {
     private IntNode sentinel;
     private int size = 0;
 
-    public class IntNode {
+    private class IntNode {
         private IntNode prev;
         private IntNode next;
         private T item;
@@ -22,7 +22,7 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T x) {
-        if (size == 0){
+        if (size == 0) {
             IntNode newNode = new IntNode(sentinel, x, sentinel);
             sentinel.next = newNode;
             sentinel.prev = newNode;
@@ -52,7 +52,7 @@ public class LinkedListDeque<T> {
     public boolean isEmpty() {
         if (size == 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -74,11 +74,11 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         } else {
-            IntNode copyNode = sentinel.next;
+            //IntNode copyNode = sentinel.next;
             T firsttItem = sentinel.next.item;
             sentinel.next.item = null;
-            sentinel.next = copyNode.next;
-            copyNode.next = sentinel;
+            sentinel.next = sentinel.next.next;
+            sentinel.next.prev = sentinel;
             size -= 1;
             return firsttItem;
         }
@@ -114,16 +114,31 @@ public class LinkedListDeque<T> {
 
     public LinkedListDeque(LinkedListDeque other) {
         LinkedListDeque newDeque = new LinkedListDeque();
+        IntNode newPointer = other.sentinel;
         if (isEmpty()) {
             newDeque.sentinel = new IntNode(null, null, null);
         }
-        while (other.sentinel.next.next != sentinel) {
-            newDeque.addFirst(other.sentinel.next.item);
+        while (newPointer.next.next != sentinel) {
+            newDeque.addFirst(newPointer.next.item);
+            newPointer.next = newPointer.next.next;
+
         }
     }
 
     public T getRecursive(int index) {
-        return null;
+        IntNode newPointer = new IntNode(null, null, null);
+        newPointer = sentinel.next;
+        return getRecursiveHelper(index, newPointer);
+    }
+
+    public T getRecursiveHelper(int index, IntNode p) {
+        if (index == 0) {
+            return p.item;
+        }
+        /*else {
+            p.next = p.next.next;
+        }*/
+        return getRecursiveHelper(index - 1, p.next);
     }
 
     /*public static void main(String[] args) {
