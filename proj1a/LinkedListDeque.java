@@ -50,11 +50,7 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return size == 0;
     }
 
     public int size() {
@@ -131,7 +127,7 @@ public class LinkedListDeque<T> {
         return getRecursiveHelper(index, newPointer);
     }
 
-    public T getRecursiveHelper(int index, IntNode p) {
+    private T getRecursiveHelper(int index, IntNode p) {
         if (index == 0) {
             return p.item;
         }
