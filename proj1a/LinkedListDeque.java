@@ -109,15 +109,17 @@ public class LinkedListDeque<T> {
     }
 
     public LinkedListDeque(LinkedListDeque other) {
-        LinkedListDeque newDeque = new LinkedListDeque();
+        sentinel = new  IntNode(null, null, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
         IntNode newPointer = other.sentinel;
-        if (isEmpty()) {
-            newDeque.sentinel = new IntNode(null, null, null);
-        }
-        while (newPointer.next.next != sentinel) {
-            newDeque.addFirst(newPointer.next.item);
-            newPointer.next = newPointer.next.next;
-
+        if (!other.isEmpty()) {
+            while (newPointer.next != other.sentinel) {
+                this.addLast(newPointer.next.item);
+                newPointer = newPointer.next;
+            }
+            //this.sentinel.next = newDeque;
+            //this.sentinel.prev = newDeque;
         }
     }
 
@@ -138,6 +140,14 @@ public class LinkedListDeque<T> {
     }
 
     /*public static void main(String[] args) {
-
+        LinkedListDeque A = new LinkedListDeque();
+        A.addFirst(1);
+        A.addFirst(2);
+        A.addFirst(3);
+        A.addFirst(4);
+        LinkedListDeque B = new LinkedListDeque(A);
+        A.printDeque();
+        System.out.println(" ");
+        B.printDeque();
     }*/
 }
