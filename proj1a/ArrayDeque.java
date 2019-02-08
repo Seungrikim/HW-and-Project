@@ -97,6 +97,18 @@ public class ArrayDeque<Item> {
         }
     }
 
+    public ArrayDeque(ArrayDeque<Item> other) {
+        arraySize = 8;
+        items = (Item[]) new Object[arraySize];
+        size = 0;
+        this.nextFirst = items.length / 2;
+        this.nextLast = nextFirst + 1;
+        for (int i = 0; i < other.size(); i += 1 ) {
+            addLast(other.get(i));
+        }
+
+    }
+
     public int nextFirstChecker(int position) {
         if (position == 0) {
             return items.length - 1;
