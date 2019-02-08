@@ -60,8 +60,14 @@ public class ArrayDeque<T> {
     public T removeFirst() {
         if (isEmpty()) {
             return null;
+        } else if (arraySizeChecker(size, items)){
+            downsize();
+            nextFirst = nextLastChecker(nextFirst);
+            size -= 1;
+            System.out.println(items[nextFirst]);
+            return items[nextFirst];
+
         } else {
-            //Item first = items[nextFirst + 1];
             nextFirst = nextLastChecker(nextFirst);
             size -= 1;
             System.out.println(items[nextFirst]);
@@ -72,6 +78,12 @@ public class ArrayDeque<T> {
     public T removeLast() {
         if (isEmpty()) {
             return null;
+        } else if (arraySizeChecker(size, items)) {
+            downsize();
+            nextLast = nextFirstChecker(nextLast);
+            size -= 1;
+            System.out.println(items[nextLast]);
+            return items[nextLast];
         } else {
             nextLast = nextFirstChecker(nextLast);
             size -= 1;
@@ -81,7 +93,6 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        //Item[] array = (Item[]) new Object[size];
         if (isEmpty() || index >= size) {
             return null;
         } else {
@@ -127,6 +138,10 @@ public class ArrayDeque<T> {
         return array;
     }
 
+    private boolean arraySizeChecker(int size, T[] a) {
+        return (((double)size / (double)a.length) < 0.25);
+    }
+
     private void resize() {
         T[] newArray = (T[]) new Object[arraySize * 2];
         int position = (newArray.length / 2) - (size / 2);
@@ -137,10 +152,20 @@ public class ArrayDeque<T> {
         arraySize = arraySize * 2;
     }
 
+    private void downsize() {
+        T[] newArray = (T[]) new Object[arraySize / 2];
+        int position = (newArray.length / 2) - (size / 2);
+        System.arraycopy(sortedArray(), 0, newArray, position, size);
+        items = newArray;
+        nextFirst = position - 1;
+        nextLast = position + size;
+        arraySize = arraySize / 2;
+    }
+
 
     public static void main(String[] args) {
         ArrayDeque A = new ArrayDeque();
-        A.addFirst(1);
+        /*A.addFirst(1);
         A.addFirst(2);
         A.addFirst(3);
         A.addFirst(4);
@@ -148,11 +173,13 @@ public class ArrayDeque<T> {
         A.addFirst(6);
         ArrayDeque B = new ArrayDeque(A);
         B.printDeque();
-        B.printDeque();
-        /*for (int i = 0; i < 100; i++) {
+        B.printDeque();*/
+        for (int i = 0; i < 20; i++) {
             A.addFirst(i);
         }
-        A.printDeque();
+        for (int i = 0; i < 14; i++){
+            A.removeFirst();
+        }
         //A.resize();
         //A.printDeque();
         //System.out.println(Arrays.toString(A.sortedArray()));
@@ -160,14 +187,14 @@ public class ArrayDeque<T> {
         //A.get(3);
         //A.get(6);
         //A.get(7);
-        A.removeLast();
-        A.removeLast();
-        A.removeLast();
-        A.removeLast();
-        A.removeLast();
+        //A.removeLast();
+        //A.removeLast();
+        //A.removeLast();
+        //A.removeLast();
+        //A.removeLast();
         //A.addLast(9);
         //A.addLast(10);
-        A.printDeque();*/
+        //A.printDeque();
     }
 
 }
