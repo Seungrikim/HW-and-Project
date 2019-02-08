@@ -14,7 +14,6 @@ public class LinkedListDeque<T> {
     }
 
     public LinkedListDeque() {
-        //sentinel.next = sentinel.prev;
         sentinel = new IntNode(null, null, null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
@@ -59,7 +58,6 @@ public class LinkedListDeque<T> {
 
     public void printDeque() {
         IntNode copyNode = sentinel.next;
-        //copyNode = sentinel.next;
         for (int j = 0; j < size; j++) {
             System.out.print(copyNode.item + " ");
             copyNode = copyNode.next;
@@ -70,7 +68,6 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         } else {
-            //IntNode copyNode = sentinel.next;
             T firsttItem = sentinel.next.item;
             sentinel.next.item = null;
             sentinel.next = sentinel.next.next;
@@ -84,13 +81,10 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         } else {
-            //IntNode copyNode = sentinel.prev;
             T lastItem = sentinel.prev.item;
             sentinel.prev.item = null;
             sentinel.prev = sentinel.prev.prev;
             sentinel.prev.next = sentinel;
-            //sentinel.prev = copyNode.prev;
-            //copyNode.next = sentinel;
             size -= 1;
             return lastItem;
         }
@@ -119,8 +113,6 @@ public class LinkedListDeque<T> {
                 this.addLast(newPointer.next.item);
                 newPointer = newPointer.next;
             }
-            //this.sentinel.next = newDeque;
-            //this.sentinel.prev = newDeque;
         }
     }
 
@@ -134,21 +126,6 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return p.item;
         }
-        /*else {
-            p.next = p.next.next;
-        }*/
         return getRecursiveHelper(index - 1, p.next);
     }
-
-    /*public static void main(String[] args) {
-        LinkedListDeque A = new LinkedListDeque();
-        A.addFirst(1);
-        A.addFirst(2);
-        A.addFirst(3);
-        A.addFirst(4);
-        LinkedListDeque B = new LinkedListDeque(A);
-        A.printDeque();
-        System.out.println(" ");
-        B.printDeque();
-    }*/
 }
