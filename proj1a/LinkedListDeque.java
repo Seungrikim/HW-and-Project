@@ -1,6 +1,6 @@
 public class LinkedListDeque<T> {
     private IntNode sentinel;
-    private int size = 0;
+    private int size;
 
     private class IntNode {
         private IntNode prev;
@@ -112,6 +112,7 @@ public class LinkedListDeque<T> {
         sentinel = new  IntNode(null, null, null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
+        size = 0;
         IntNode newPointer = other.sentinel;
         if (!other.isEmpty()) {
             while (newPointer.next != other.sentinel) {
