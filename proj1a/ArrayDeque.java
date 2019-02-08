@@ -12,10 +12,7 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        /*if (isEmpty()) {
-            items[nextFirst] = item;
-            nextFirst = nextFirstChecker(nextFirst);
-        }*/ if (nextFirst != nextLast) {
+        if (nextFirst != nextLast) {
             items[nextFirst] = item;
             nextFirst = nextFirstChecker(nextFirst);
         } else if (nextFirst == nextLast) {
@@ -27,10 +24,7 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        /*if (isEmpty()) {
-            items[nextLast] = item;
-            nextLast = nextLastChecker(nextLast);
-        }*/ if (nextLast != nextFirst) {
+        if (nextLast != nextFirst) {
             items[nextLast] = item;
             nextLast = nextLastChecker(nextLast);
         } else if (nextLast == nextFirst) {
