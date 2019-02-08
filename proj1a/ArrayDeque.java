@@ -3,9 +3,9 @@ public class ArrayDeque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
-    private int arraySize;
+    private int arraySize = 8;
     public ArrayDeque() {
-        items = (T[]) new Object[arraySize = 8];
+        items = (T[]) new Object[arraySize];
         size = 0;
         this.nextFirst = items.length / 2;
         this.nextLast = nextFirst + 1;
@@ -96,7 +96,7 @@ public class ArrayDeque<T> {
         this.nextFirst = items.length / 2;
         this.nextLast = nextFirst + 1;
         for (int i = 0; i < other.size(); i += 1) {
-            addLast((T)other.get(i));
+            addLast((T) other.get(i));
         }
 
     }
@@ -138,7 +138,7 @@ public class ArrayDeque<T> {
     }
 
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ArrayDeque A = new ArrayDeque();
         A.addFirst(1);
         A.addFirst(2);
@@ -146,7 +146,10 @@ public class ArrayDeque<T> {
         A.addFirst(4);
         A.addFirst(5);
         A.addFirst(6);
-        for (int i = 0; i < 20; i++) {
+        ArrayDeque B = new ArrayDeque(A);
+        B.printDeque();
+        B.printDeque();
+        /*for (int i = 0; i < 100; i++) {
             A.addFirst(i);
         }
         A.printDeque();
@@ -164,7 +167,7 @@ public class ArrayDeque<T> {
         A.removeLast();
         //A.addLast(9);
         //A.addLast(10);
-        A.printDeque();
-    }*/
+        A.printDeque();*/
+    }
 
 }
