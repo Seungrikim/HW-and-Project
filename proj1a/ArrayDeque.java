@@ -60,13 +60,7 @@ public class ArrayDeque<T> {
     public T removeFirst() {
         if (isEmpty()) {
             return null;
-        } /*else if (nextFirst == (items.length - 1)) {
-            nextFirst = nextLastChecker(nextFirst);
-            Item first = items[nextFirst];
-            size -= 1;
-            System.out.println(first);
-            return first;*/
-        else {
+        } else {
             //Item first = items[nextFirst + 1];
             nextFirst = nextLastChecker(nextFirst);
             size -= 1;
@@ -96,13 +90,13 @@ public class ArrayDeque<T> {
         }
     }
 
-    public ArrayDeque(ArrayDeque<T> other) {
+    public ArrayDeque(ArrayDeque other) {
         items = (T[]) new Object[arraySize];
         size = 0;
         this.nextFirst = items.length / 2;
         this.nextLast = nextFirst + 1;
         for (int i = 0; i < other.size(); i += 1) {
-            addLast(other.get(i));
+            addLast((T)other.get(i));
         }
 
     }
