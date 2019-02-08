@@ -3,8 +3,9 @@ public class ArrayDeque<Item> {
     private int size;
     private int nextFirst;
     private int nextLast;
-    private int arraySize = 8;
+    private int arraySize;
     public ArrayDeque() {
+        arraySize = 8;
         items = (Item[]) new Object[arraySize];
         size = 0;
         this.nextFirst = items.length / 2;
@@ -87,7 +88,7 @@ public class ArrayDeque<Item> {
     }
 
     public Item get(int index){
-        Item[] array = (Item[]) new Object[size];
+        //Item[] array = (Item[]) new Object[size];
         if (isEmpty() || index >= size) {
             return null;
         } else {
@@ -132,9 +133,9 @@ public class ArrayDeque<Item> {
     }
 
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ArrayDeque A = new ArrayDeque();
-        /*A.addFirst(1);
+        A.addFirst(1);
         A.addFirst(2);
         A.addFirst(3);
         A.addFirst(4);
@@ -155,9 +156,7 @@ public class ArrayDeque<Item> {
         //A.get(3);
         //A.get(6);
         //A.get(7);
-
-
-        /*A.removeLast();
+        A.removeLast();
         A.removeLast();
         A.removeLast();
         A.removeLast();
@@ -165,6 +164,6 @@ public class ArrayDeque<Item> {
         //A.addLast(9);
         //A.addLast(10);
         A.printDeque();
-    }*/
+    }
 
 }
