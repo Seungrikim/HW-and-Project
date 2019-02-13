@@ -15,6 +15,7 @@ public class TestPalindrome {
         }
         assertEquals("persiflage", actual);
     }
+
     @Test
     public void testIspalindrome() {
         assertTrue(palindrome.isPalindrome("racecar"));
@@ -60,6 +61,5 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("PjqvoU", obn));
         assertTrue(palindrome.isPalindrome("PjqavoU", obn));
         System.out.println("ispalindrome for OffByN test passed");
-
     }
 }

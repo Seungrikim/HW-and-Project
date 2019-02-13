@@ -24,7 +24,8 @@ public class Palindrome extends LinkedListDeque {
         if (word.length() == 1 || word.length() == 0) {
             return true;
         } else {
-            return palindromeHelper((Character) testDeque.removeFirst(), (Character) testDeque.removeLast(),testDeque);
+            return palindromeHelper((Character) testDeque.removeFirst(),
+                     (Character) testDeque.removeLast(), testDeque);
         }
     }
 
@@ -34,7 +35,7 @@ public class Palindrome extends LinkedListDeque {
         } else if (d.size() == 1 || d.size() == 0) {
             return true;
         } else {
-            return palindromeHelper((Character)d.removeFirst(), (Character)d.removeLast(), d);
+            return palindromeHelper((Character) d.removeFirst(), (Character) d.removeLast(), d);
         }
     }
 
@@ -42,7 +43,7 @@ public class Palindrome extends LinkedListDeque {
         if (word.length() == 0 || word.length() == 1) {
             return true;
         }
-        for (int i = 0; i < (word.length() / 2); i++){
+        for (int i = 0; i < (word.length() / 2); i++) {
             if (!cc.equalChars(word.charAt(i), word.charAt(word.length() - 1 - i))) {
                 return false;
             }
