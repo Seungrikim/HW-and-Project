@@ -9,7 +9,7 @@ public class TestArrayDequeGold {
         int testRunTime = 0;
         String testResult = "\n";
 
-        while (testRunTime != 100) {
+        while (testRunTime != 1000) {
             int functionChoice = StdRandom.uniform(4); //generate random number for choose method
             Integer item = StdRandom.uniform(1000); //generate random number for item
             switch (functionChoice) {
@@ -49,7 +49,7 @@ public class TestArrayDequeGold {
                 default:
                     break;
             }
-            assertEquals(testResult,ads.size(),sad.size());
+            assertEquals(testResult + "size()\n",ads.size(),sad.size());
             testRunTime += 1;
         }
     }
