@@ -1,0 +1,63 @@
+All questions are optional, though try to answer at least 4. The main goal of this file is to get you thinking critically about your own work, but we will also use these self reflections at the end of the semester when we do our internal review of the course.
+
+ArrayDeque:
+
+Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
+
+A: First one, I need to finalize of arraySize with private static final. Second, I didn't need to sort the array, but need to keep track the pointers, and repositioning of array positions through the helper function.
+
+Q: What's something you felt proud of in your code, if anything?
+
+A:I create private helper functions that help to multiple method in my code, not only for one method.
+
+Q: What's something that was particularly inelegant in your code, if anything?
+
+A: I had hard time to understand concept of ArrayDeque, especially resizing part. As a result, I made two helper functions which are resize, and downsize. However, other people used just one resize method and this function process both way. I should made simpler my code.
+
+Q: What did you learn by talking to your partner about writing ArrayDeque?
+
+A:Their concept was pretty interesting, and I think, much simper than my code.
+
+Q: What do you wish you would have known before writing ArrayDeque, if anything?
+
+A:I should understand, concept of ArrayDequ correctly, that might make my code simple.
+
+Q: If you wrote ArrayDeque again, what would you do differently, if anything?
+
+A:I will keep track the pointer in every method, thus don't need to sorted array method which is mush slower than others.
+
+-----
+
+LinkedListDeque:
+
+Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
+
+A: 
+
+Q: What's something you felt proud of in your code, if anything?
+
+A:I tried Linkedlist as much as simple.
+
+Q: What's something that was particularly inelegant in your code, if anything?
+
+A:I had hard time to make a recursive version of get function. So, it's little bit messier than others.
+
+Q: What did you learn by talking to your partner about writing LinkedListDeque?
+
+A:Their get method with recursion was simpler than mine. I made new pointer, but they didn't. It was just simply use the sentinel pointer as an argument for helper function.
+
+Q: What do you wish you would have known before writing LinkedListDeque, if anything?
+
+A: I understood concept of Linkedlist, beside ArrayDeque.
+
+Q: If you wrote LinkedListDeque again, what would you do differently, if anything?
+
+A: I would make recursive version of get function simpler.
+
+-----
+
+Meta:
+
+Q: Did you like this design review process? Anything we should do differently next time?
+
+A: I love this design!! And solution from TA was genius, especially ArrayDeque version. 
