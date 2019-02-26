@@ -12,11 +12,11 @@ import static org.junit.Assert.*;
 public class TestArrayRingBuffer {
     @Test
     public void someTest() {
-        ArrayRingBuffer<Integer> arb = new ArrayRingBuffer<>(10);
+        ArrayRingBuffer arb = new ArrayRingBuffer<>(10);
         ///Object arb2 = new ArrayRingBuffer<>(10);
 
         /**ArrayRingBuffer Basic Test*/
-        /*assertEquals(10, arb.capacity());
+        assertEquals(10, arb.capacity());
         assertEquals(0, arb.fillCount());
 
         arb.enqueue(0);
@@ -28,19 +28,23 @@ public class TestArrayRingBuffer {
         assertEquals(0, arb.dequeue());
         assertEquals(1, arb.peek());
         assertEquals(1,arb.fillCount());
+        arb.dequeue();
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 4; i++) {
             arb.enqueue(i);
         }
 
-        assertEquals(10, arb.fillCount());
-        assertEquals(1, arb.peek());
-        assertEquals(1,arb.dequeue());
+        assertEquals(4, arb.fillCount());
+        assertEquals(0, arb.peek());
         assertEquals(0,arb.dequeue());
-        assertEquals(1, arb.dequeue());
-        assertEquals(7,arb.fillCount());
+        assertEquals(1,arb.dequeue());
+        assertEquals(2, arb.dequeue());
+        assertEquals(1,arb.fillCount());
+        assertEquals(3, arb.dequeue());
+        assertEquals(0, arb.fillCount());
+        assertSame("Ring Buffer underflow", arb.peek());
 
-        for (int i= 0 ; i < 4; i++) {
+        /*for (int i= 0 ; i < 4; i++) {
             arb.dequeue();
         }
 

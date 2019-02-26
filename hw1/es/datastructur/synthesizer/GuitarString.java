@@ -18,10 +18,9 @@ public class GuitarString {
         //       Your buffer should be initially filled with zeros.
         int size = (int) Math.round(SR / frequency);
         buffer = new ArrayRingBuffer<>(size);
-        for (int i = 0; i < size; i++) {
+        /*for (int i = 0; i < size; i++) {
             buffer.enqueue(0.0);
-        }
-        ((ArrayRingBuffer) buffer).setToZero();
+        }*/
     }
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
@@ -56,7 +55,9 @@ public class GuitarString {
         // TODO: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
-        double newDouble = (buffer.dequeue() + buffer.peek()) / 2 * DECAY;
+        double fir = buffer.dequeue();
+        double sec = buffer.peek();
+        double newDouble = ((fir + sec) / 2 )* DECAY;
         buffer.enqueue(newDouble);
     }
 

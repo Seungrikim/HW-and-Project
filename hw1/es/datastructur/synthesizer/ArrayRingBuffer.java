@@ -36,7 +36,7 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     public void enqueue(T x) {
         // TODO: Enqueue the item. Don't forget to increase fillCount and update
         //       last.
-        if (capacity() == fillCount()) {
+        if (isFull()) {
             throw new RuntimeException("Ring Buffer overflow");
         } else {
             rb[last] = x;
@@ -53,7 +53,7 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     public T dequeue() {
         // TODO: Dequeue the first item. Don't forget to decrease fillCount and
         //       update first.
-        if (fillCount() == 0) {
+        if (isEmpty()) {
             throw new RuntimeException("Ring Buffer underflow");
         } else {
             T result = rb[first];
@@ -72,7 +72,7 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     public T peek() {
         // TODO: Return the first item. None of your instance variables should
         //       change.
-        if (fillCount() == 0) {
+        if (isEmpty()) {
             throw new RuntimeException("There is no item");
         }
         return rb[first];
@@ -145,9 +145,9 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         return true;
     }
 
-    public void setToZero() {
+    /* public void setToZero() {
         fillCount = 0;
-    }
+    }*/
 
     // TODO: When you get to part 4, implement the needed code to support
     //       iteration and equals.
