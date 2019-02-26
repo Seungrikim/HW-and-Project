@@ -18,9 +18,10 @@ public class GuitarString {
         //       Your buffer should be initially filled with zeros.
         int size = (int) Math.round(SR / frequency);
         buffer = new ArrayRingBuffer<>(size);
-        /*for (int i = 0; i < size; i++) {
+
+        for (int i = 0; i < size; i++) {
             buffer.enqueue(0.0);
-        }*/
+        }
     }
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
@@ -42,6 +43,9 @@ public class GuitarString {
         /*while (!checkSet.contains(nonDuplicated) && ) {
             checkSet.add(nonDuplicated);
         }*/
+        for (int i = 0; i < buffer.capacity(); i++) {
+            buffer.dequeue();
+        }
         for (int i = 0; i < buffer.capacity(); i++) {
             double nonDuplicated = Math.random() - 0.5;
             buffer.enqueue(nonDuplicated);
