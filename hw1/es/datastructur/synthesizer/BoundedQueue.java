@@ -21,11 +21,5 @@ public interface BoundedQueue<T> extends Iterable<T> {
         return capacity() == fillCount();
     }      // is the buffer full (fillCount is same as capacity)?
 
-    /*interface Iterator<T> {
-        boolean hasNext();
-        T next();
-    }*/
-    //boolean hasNext();
-    //T next();
     Iterator<T> iterator();
 }
