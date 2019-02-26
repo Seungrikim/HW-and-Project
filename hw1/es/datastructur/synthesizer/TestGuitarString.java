@@ -23,7 +23,6 @@ public class TestGuitarString {
         }
     }
 
-/*
     @Test
     public void testTic() {
         // Create a GuitarString of frequency 11025, which
@@ -52,5 +51,4 @@ public class TestGuitarString {
         assertEquals(expected, s5, 0.001);
 
     }
-*/
 }

@@ -72,6 +72,9 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     public T peek() {
         // TODO: Return the first item. None of your instance variables should
         //       change.
+        if (fillCount() == 0) {
+            throw new RuntimeException("There is no item");
+        }
         return rb[first];
     }
 
@@ -140,6 +143,10 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
             }
         }
         return true;
+    }
+
+    public void setToZero() {
+        fillCount = 0;
     }
 
     // TODO: When you get to part 4, implement the needed code to support

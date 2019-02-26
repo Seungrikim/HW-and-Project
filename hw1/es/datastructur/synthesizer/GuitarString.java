@@ -1,7 +1,4 @@
 package es.datastructur.synthesizer;
-import java.util.Random;
-import java.util.HashSet;
-import java.util.Set;
 
 //Note: This file will not compile until you complete task 1 (BoundedQueue).
 public class GuitarString {
@@ -24,6 +21,7 @@ public class GuitarString {
         for (int i = 0; i < size; i++) {
             buffer.enqueue(0.0);
         }
+        ((ArrayRingBuffer) buffer).setToZero();
     }
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
