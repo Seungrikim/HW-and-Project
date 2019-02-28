@@ -1,3 +1,7 @@
+import org.junit.Test;
+import java.util.Arrays;
+import java.util.ArrayList;
+
 public class UnionFind {
 
     // TODO - Add instance variables?
@@ -7,9 +11,10 @@ public class UnionFind {
        vertices are in disjoint sets. */
     public UnionFind(int n) {
         parent = new int[n];
-        for (int i = 0; i < n ; i++) {
+        Arrays.fill(parent, -1);
+        /*for (int i = 0; i < n ; i++) {
             parent[i] = i;
-        }
+        }*/
     }
 
     /* Throws an exception if v1 is not a valid index. */
@@ -21,10 +26,13 @@ public class UnionFind {
 
     /* Returns the size of the set v1 belongs to. */
     public int sizeOf(int v1) {
+        /* int root = find(v1);
+        return -1 * parent[root]
+         */
         while (parent(v1) > 0) {
             v1 = parent(v1);
         }
-        return parent[v1];
+        return -1 * parent[v1];
     }
 
     /* Returns the parent of v1. If v1 is the root of a tree, returns the
@@ -44,6 +52,15 @@ public class UnionFind {
        vertex with itself or vertices that are already connected should not 
        change the sets but may alter the internal structure of the data. */
     public void union(int v1, int v2) {
+        /*
+        int rootv1 = find(v1);
+        int rootv2 = find(v2);
+        if( rootV1 != rootV2) {
+            if(paretm[rootV1] < parent[rootV2] {
+                parent[rootV1] += parent[rootV2]
+                parent[rootV2] = rootV2;
+                } else 반대
+         */
         if(!connected(v1, v2)) {
             if (sizeOf(v1) > sizeOf(v2)) {
                 parent[find(v1)] += parent[find(v2)];
@@ -58,6 +75,7 @@ public class UnionFind {
     /* Returns the root of the set V belongs to. Path-compression is employed
        allowing for fast search-time. */
     public int find(int vertex) {
+        validate(vertex);
         while (parent(vertex) > 0) {
             int temp = vertex;
             vertex = parent(vertex);
@@ -65,5 +83,19 @@ public class UnionFind {
         }
         return vertex;
     }
+
+        /* validate(vertex);
+           if(parent[vertex] < 0) {
+                reutn vertex;
+           } else {
+                    ArrayList<Integer> to Compress = new ArrayList<~>();
+                    int root = vertex;
+                    while(parenet[root] >= 0) {
+                        toCompress.add(root);
+                        root = parent[root];
+                    }
+                    for (int i :toCompress) {
+                        data[i] = root;
+                        */
 
 }
