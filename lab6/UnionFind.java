@@ -58,14 +58,14 @@ public class UnionFind {
         if( rootV1 != rootV2) {
             if(paretm[rootV1] < parent[rootV2] {
                 parent[rootV1] += parent[rootV2]
-                parent[rootV2] = rootV2;
+                parent[rootV2] = rootV1;
                 } else 반대
          */
         if(!connected(v1, v2)) {
-            if (sizeOf(v1) > sizeOf(v2)) {
+            if (sizeOf(v1) < sizeOf(v2)) {
                 parent[find(v1)] += parent[find(v2)];
                 parent[find(v2)] = find(v1);
-            } else if (sizeOf(v1) <= sizeOf(v2)) {
+            } else {
                 parent[find(v2)] += parent[find(v1)];
                 parent[find(v1)] = find(v2);
             }
@@ -88,7 +88,7 @@ public class UnionFind {
            if(parent[vertex] < 0) {
                 reutn vertex;
            } else {
-                    ArrayList<Integer> to Compress = new ArrayList<~>();
+                    ArrayList<Integer> toCompress = new ArrayList<~>();
                     int root = vertex;
                     while(parenet[root] >= 0) {
                         toCompress.add(root);
