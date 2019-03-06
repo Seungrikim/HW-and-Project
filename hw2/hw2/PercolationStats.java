@@ -28,7 +28,6 @@ public class PercolationStats {
             }
             threshold[i] = (double) numberOfSite / (N * N);
         }
-        System.out.println(Math.sqrt(T));
     }
 
     // sample mean of percolation threshold
@@ -51,7 +50,7 @@ public class PercolationStats {
         return mean() + (1.96 * stddev()) / Math.sqrt(times);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         PercolationFactory pf = new PercolationFactory();
         PercolationStats test = new PercolationStats(20, 10, pf);
         for (int i = 0; i < test.threshold.length; i++) {
@@ -61,6 +60,6 @@ public class PercolationStats {
         System.out.println(test.stddev());
         System.out.println(test.confidenceHigh());
         System.out.println(test.confidenceLow());
-    }
+    }*/
 }
 
