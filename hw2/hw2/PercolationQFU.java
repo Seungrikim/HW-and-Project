@@ -1,26 +1,26 @@
 package hw2;
 
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.QuickUnionUF;
 
-public class Percolation {
+public class PercolationQFU {
     private boolean[][] grid;
     private int openSite;
     private int top;
     private int bottom;
     private int gridSize;
     private int gridLength;
-    private WeightedQuickUnionUF tracker;
-    private WeightedQuickUnionUF fullTracker;
+    private QuickUnionUF tracker;
+    private QuickUnionUF fullTracker;
 
     // create N-by-N grid, with all sites initially blocked
-    public Percolation(int N) {
+    public PercolationQFU(int N) {
         if (N <= 0) {
             throw new IllegalArgumentException("Size of grid must be greater than 0 * 0");
         }
         gridLength = N;
         gridSize = N * N + 2;
-        tracker = new WeightedQuickUnionUF(gridSize);
-        fullTracker = new WeightedQuickUnionUF(gridSize);
+        tracker = new QuickUnionUF(gridSize);
+        fullTracker = new QuickUnionUF(gridSize);
         openSite = 0;
         top = 0;
         bottom = gridSize - 1;

@@ -4,16 +4,16 @@ import edu.princeton.cs.introcs.StdRandom;
 import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
-    int T;
-    int numberOfSite;
-    double[] threshold;
+    private int times;
+    private int numberOfSite;
+    private double[] threshold;
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
-        T = T;
+        times = T;
         threshold = new double[T];
         for (int i = 0; i < T; i++) {
             numberOfSite = 0;
@@ -28,6 +28,7 @@ public class PercolationStats {
             }
             threshold[i] = (double) numberOfSite / (N * N);
         }
+        System.out.println(Math.sqrt(T));
     }
 
     // sample mean of percolation threshold
@@ -42,17 +43,17 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLow() {
-        return mean() - (1.96 * stddev());
+        return mean() - (1.96 * stddev()) / Math.sqrt(times);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHigh() {
-        return mean() + (1.96 * stddev());
+        return mean() + (1.96 * stddev()) / Math.sqrt(times);
     }
 
     public static void main(String[] args) {
         PercolationFactory pf = new PercolationFactory();
-        PercolationStats test = new PercolationStats(20, 5, pf);
+        PercolationStats test = new PercolationStats(20, 10, pf);
         for (int i = 0; i < test.threshold.length; i++) {
             System.out.println(test.threshold[i]);
         }
