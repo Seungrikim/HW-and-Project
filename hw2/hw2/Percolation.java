@@ -74,10 +74,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        if (tracker.connected(top, bottom) || gridLength == 1) {
-            return true;
-        }
-        return false;
+        return (tracker.connected(top, bottom) || gridLength == 1 && isOpen(0,0));
     }
 
     private int xyTo1D(int r, int c) {
