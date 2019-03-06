@@ -6,7 +6,7 @@ import edu.princeton.cs.introcs.StdStats;
 public class PercolationStats {
     int T;
     int numberOfSite;
-    int[] threshold;
+    double[] threshold;
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
@@ -14,16 +14,17 @@ public class PercolationStats {
             throw new IllegalArgumentException();
         }
         T = T;
-        numberOfSite = 0;
-        Percolation newPercolchecker = pf.make(N);
+        threshold = new double[T];
         for (int i = 0; i < T; i++) {
+            numberOfSite = 0;
+            Percolation newPercolchecker = pf.make(N);
             while (!newPercolchecker.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
                 newPercolchecker.open(row, col);
-                numberOfSite++;
+                numberOfSite += 1;
             }
-            threshold[i] = numberOfSite / N * N;
+            threshold[i] = (double) numberOfSite / (N * N);
         }
     }
 
@@ -39,17 +40,24 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLow() {
-        return mean() - ((1.96 * stddev()) / Math.sqrt(T));
+        return mean() - (1.96 * stddev());
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHigh() {
-        return mean() + ((1.96 * stddev()) / Math.sqrt(T));
+        return mean() + (1.96 * stddev());
     }
 
     public static void main(String[] args) {
         PercolationFactory pf = new PercolationFactory();
-        PercolationStats test = new PercolationStats(20, 10, pf);
+        PercolationStats test = new PercolationStats(20, 40, pf);
+        for (int i = 0; i < test.threshold.length; i++) {
+            System.out.println(test.threshold[i]);
+        }
+        System.out.println(test.mean());
+        System.out.println(test.stddev());
+        System.out.println(test.confidenceHigh());
+        System.out.println(test.confidenceLow());
     }
 }
 
