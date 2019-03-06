@@ -13,7 +13,6 @@ public class PercolationStats {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
-
         T = T;
         numberOfSite = 0;
         Percolation newPercolchecker = pf.make(N);
@@ -21,7 +20,7 @@ public class PercolationStats {
             while (!newPercolchecker.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
-                newPercolchecker.open(N, N);
+                newPercolchecker.open(row, col);
                 numberOfSite++;
             }
             threshold[i] = numberOfSite / N * N;
