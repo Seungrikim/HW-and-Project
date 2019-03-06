@@ -21,8 +21,10 @@ public class PercolationStats {
             while (!newPercolchecker.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
-                newPercolchecker.open(row, col);
-                numberOfSite += 1;
+                if (!newPercolchecker.isOpen(row, col)) {
+                    newPercolchecker.open(row, col);
+                    numberOfSite += 1;
+                }
             }
             threshold[i] = (double) numberOfSite / (N * N);
         }
@@ -50,7 +52,7 @@ public class PercolationStats {
 
     public static void main(String[] args) {
         PercolationFactory pf = new PercolationFactory();
-        PercolationStats test = new PercolationStats(20, 40, pf);
+        PercolationStats test = new PercolationStats(20, 5, pf);
         for (int i = 0; i < test.threshold.length; i++) {
             System.out.println(test.threshold[i]);
         }
