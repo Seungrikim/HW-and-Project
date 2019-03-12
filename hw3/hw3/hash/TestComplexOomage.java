@@ -40,13 +40,13 @@ public class TestComplexOomage {
         int N = 127;
         ArrayList<Integer> params2 = new ArrayList<>(N);
         for (int i = 0; i < N; i++) {
-            params2.add(i * 2);
+            params2.add(i * i);
             deadlyList2.add(new ComplexOomage(params2));
         }
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList2, 10));
 
         List<Oomage> deadlyList = new ArrayList<>();
-        int T = 254;
+        int T = 255;
         List<Integer> params = new ArrayList<>(N);
         for (int i = 0; i < T; i++) {
             params.add(i);
