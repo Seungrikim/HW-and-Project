@@ -20,11 +20,10 @@ public class SimpleOomage implements Oomage {
         SimpleOomage that = (SimpleOomage) o;
         if (this == null || that == null) {
             return false;
-        } else if (this == o || equalsConsistent((SimpleOomage) o)) {
+        } else if ((this == o || equalsConsistent((SimpleOomage) o))) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean equalsConsistent(SimpleOomage o) {

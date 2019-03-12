@@ -2,9 +2,9 @@ package hw3.hash;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-
-import java.util.*;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TestSimpleOomage {
 
@@ -19,8 +19,7 @@ public class TestSimpleOomage {
 
     @Test
     public void testHashCodePerfect() {
-        /* TODO: Write a test that ensures the hashCode is perfect,
-          meaning no two SimpleOomages should EVER have the same
+        /*meaning no two SimpleOomages should EVER have the same
           hashCode UNLESS they have the same red, blue, and green values!
          */
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
@@ -61,7 +60,6 @@ public class TestSimpleOomage {
         assertTrue(hashSet.contains(ooA2));
     }
 
-    /* TODO: Uncomment this test after you finish haveNiceHashCodeSpread in OomageTestUtility */
     @Test
     public void testRandomOomagesHashCodeSpread() {
         List<Oomage> oomages = new ArrayList<>();
