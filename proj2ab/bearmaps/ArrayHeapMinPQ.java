@@ -89,22 +89,22 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
 
     /*Evaluate position of their parent(package private)*/
-    int parent(int i) {
+    private int parent(int i) {
         return i / 2;
     }
 
     /* Evaluate position of left child(package private)*/
-    int leftChild(int i) {
+    private int leftChild(int i) {
         return i * 2;
     }
 
     /* Evaluate position of right child(package private)*/
-    int rightChild(int i) {
+    private int rightChild(int i) {
         return i * 2 + 1;
     }
 
     /*return true if leftchild is bigger than rightchild(package private)*/
-    int minimumChild(int i) {
+    private int minimumChild(int i) {
         // what if there is no left or right child exist?
         if (rightChild(i) > size && leftChild(i) == size) {
             return leftChild(i);
@@ -117,7 +117,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
 
     /*swap the specific postions of the items(package private)*/
-    void swapItem(int prio1, int prio2) {
+    private void swapItem(int prio1, int prio2) {
         PriorityNode tempNode1 = heap.get(prio1);
         //PriorityNode tempNode2 = heap.get(prio2);
         //int position1 = heap.indexOf(heap.get(prio1));
@@ -132,7 +132,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
 
     /*swim up to the heap until find right position(package private)*/
-    void swimUp(int i) {
+    private void swimUp(int i) {
         if (i == 1 || heap.get(i).getPriority() >= heap.get(parent(i)).getPriority()) {
             return;
         } else {
@@ -142,7 +142,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
 
     /*swim down to the heap until find right position(package private)*/
-    void swimDown(int i) {
+    private void swimDown(int i) {
         if ((leftChild(i) > size && rightChild(i) > size)
                 || heap.get(i).getPriority() <= heap.get(minimumChild(i)).getPriority()) {
             return;
