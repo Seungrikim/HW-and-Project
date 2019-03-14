@@ -119,15 +119,15 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /*swap the specific postions of the items(package private)*/
     void swapItem(int prio1, int prio2) {
         PriorityNode tempNode1 = heap.get(prio1);
-        PriorityNode tempNode2 = heap.get(prio2);
-        int position1 = heap.indexOf(heap.get(prio1));
-        int position2 = heap.indexOf(heap.get(prio2));
-        container.replace(heap.get(prio1).item, position2);
-        container.replace(heap.get(prio2).item, position1);
-        heap.remove(prio1);
-        heap.add(prio1, tempNode2);
-        heap.remove(prio2);
-        heap.add(prio2, tempNode1);
+        //PriorityNode tempNode2 = heap.get(prio2);
+        //int position1 = heap.indexOf(heap.get(prio1));
+        //int position2 = heap.indexOf(heap.get(prio2));
+        container.replace(heap.get(prio1).item, prio2);
+        container.replace(heap.get(prio2).item, prio1);
+        //heap.remove(prio1);
+        heap.set(prio1, heap.get(prio2));
+        //heap.remove(prio2);
+        heap.set(prio2, tempNode1);
         /*usign set method in arraylist*/
     }
 

@@ -44,7 +44,7 @@ public class ArrayHeapMinPQTest {
     }
 
     @Test
-    public void testHelpers() {
+    public void testContains() {
         ArrayHeapMinPQ test =  new ArrayHeapMinPQ();
         test.add(11, 1);
         test.add(12, 2);
@@ -61,7 +61,7 @@ public class ArrayHeapMinPQTest {
         test.add(3,2);
         test.add(4,1);
         test.add(5,1);
-        //test.getSmallest();
+        ///test.getSmallest();
     }
 
     @Test
