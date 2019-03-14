@@ -114,16 +114,16 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         int position2 = heap.indexOf(heap.get(prio2));
         container.replace(heap.get(prio1).item, position2);
         container.replace(heap.get(prio2).item, position1);
-        ///heap.remove(prio1);
-        heap.set(prio1, tempNode2);
-        //heap.remove(prio2);
-        heap.set(prio2, tempNode1);
+        heap.remove(prio1);
+        heap.add(prio1, tempNode2);
+        heap.remove(prio2);
+        heap.add(prio2, tempNode1);
         /*usign set method in arraylist*/
     }
 
     /*swim up to the heap until find right position(package private)*/
     void swimUp(int i) {
-        if (i == 1 || heap.get(i).getPriority() > heap.get(parent(i)).getPriority()) {
+        if (i == 1 || heap.get(i).getPriority() >= heap.get(parent(i)).getPriority()) {
             return;
         } else {
             swapItem(i, parent(i));

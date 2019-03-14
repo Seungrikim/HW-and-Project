@@ -53,4 +53,15 @@ public class ArrayHeapMinPQTest {
         assertEquals(true, test.contains(12));
     }
 
+    @Test
+    public void exceptionTest() {
+        ArrayHeapMinPQ test = new ArrayHeapMinPQ();
+        test.add(1,2);
+        test.add(2,2);
+        test.add(3,2);
+        test.add(4,1);
+        test.add(5,1);
+        //test.getSmallest();
+    }
+
 }
