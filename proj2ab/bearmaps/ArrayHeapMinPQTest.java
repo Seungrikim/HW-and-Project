@@ -54,7 +54,7 @@ public class ArrayHeapMinPQTest {
     }
 
     @Test
-    public void exceptionTest() {
+    public void testException() {
         ArrayHeapMinPQ test = new ArrayHeapMinPQ();
         test.add(1,2);
         test.add(2,2);
@@ -62,6 +62,38 @@ public class ArrayHeapMinPQTest {
         test.add(4,1);
         test.add(5,1);
         //test.getSmallest();
+    }
+
+    @Test
+    public void testChangePriority() {
+        ArrayHeapMinPQ test = new ArrayHeapMinPQ();
+        test.add(1,3);
+        test.add(2,4);
+        test.add(3,5);
+        test.add(4,6);
+        assertEquals(1, test.getSmallest());
+        test.changePriority(2,2);
+        assertEquals(2, test.getSmallest());
+        test.changePriority(2,7);
+        assertEquals(1, test.getSmallest());
+    }
+
+    @Test
+    public void testEdgecase() {
+        ArrayHeapMinPQ test = new ArrayHeapMinPQ();
+        test.add(1,1);
+        test.add(2,2);
+        test.add(3,3);
+        test.removeSmallest();
+
+    }
+
+    @Test
+    public void memoryTest() {
+        ArrayHeapMinPQ test = new ArrayHeapMinPQ();
+        for (int i = 0; i < 1000000; i++) {
+            test.add(i,i);
+        }
     }
 
 }

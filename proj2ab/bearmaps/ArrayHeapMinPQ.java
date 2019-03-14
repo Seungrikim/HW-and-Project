@@ -28,8 +28,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             throw new IllegalArgumentException("Already present given item");
         }
         PriorityNode newNode = new PriorityNode(item, priority);
-        heap.add(size + 1, newNode);
         size += 1;
+        heap.add(size, newNode);
         swimUp(size);
         container.put(item, heap.indexOf(newNode));
     }
@@ -57,10 +57,12 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         T smallest = heap.get(1).getItem();
         swapItem(1, size);
+        container.remove(heap.get(size).item, size);
         heap.remove(size);
         size -= 1;
         // need to search down to find right position
         swimDown(1);
+
         return smallest;
 
     }
@@ -78,8 +80,12 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         // using contain to find the item, and get the index-> swap with last positioon-> swimup
         int index = container.get(item);
         heap.get(index).priority = priority;
-        swapItem(index, size);
-        swimUp(size);
+        ///swapItem(index, size);
+        if (parent(index) != 0 && priority < heap.get(parent(index)).priority) {
+            swimUp(index);
+        } else {
+            swimDown(index);
+        }
     }
 
     /*Evaluate position of their parent(package private)*/
@@ -99,6 +105,10 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     /*return true if leftchild is bigger than rightchild(package private)*/
     int minimumChild(int i) {
+        // what if there is no left or right child exist?
+        if (rightChild(i) > size && leftChild(i) == size) {
+            return leftChild(i);
+        }
         if (heap.get(leftChild(i)).getPriority() > heap.get(rightChild(i)).getPriority()) {
             return rightChild(i);
         } else {
@@ -133,7 +143,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     /*swim down to the heap until find right position(package private)*/
     void swimDown(int i) {
-        if ((leftChild(i) >= size && rightChild(i) >= size)
+        if ((leftChild(i) > size && rightChild(i) > size)
                 || heap.get(i).getPriority() <= heap.get(minimumChild(i)).getPriority()) {
             return;
         } else {
