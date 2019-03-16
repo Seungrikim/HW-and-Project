@@ -1,43 +1,42 @@
 import java.util.*;
 
 public class MyHashMap<K, V> implements Map61B<K, V> {
-    private static final int DEFAULT_SIZE = 16;
-    private static final double DEFAULT_LF = 0.75;
-    private int initialSize;
+    private static final int DEFAULT_INIT_SIZE = 16;
+    private static final double DEFAULT_LOAD_FACTOR = 0.75;
+    private ArrayList<Entry>[] map;
+    private int size;
     private double loadFactor;
-    private int size = 0;
-    private int threshold = (int) (DEFAULT_SIZE * DEFAULT_LF);
-    private HashSet set = new HashSet();
-    private ArrayList[] bucket = new ArrayList[DEFAULT_SIZE];
+    private HashSet<K> keys;
+
 
 
     public MyHashMap() {
-        this(DEFAULT_SIZE, DEFAULT_LF);
+        this(DEFAULT_INIT_SIZE, DEFAULT_LOAD_FACTOR);
     }
 
     public MyHashMap(int initialSize) {
-        this(initialSize, DEFAULT_LF);
-        bucket = new ArrayList[initialSize];
-        threshold = (int) (initialSize * DEFAULT_LF);
+        this(initialSize, DEFAULT_LOAD_FACTOR);
     }
 
     public MyHashMap(int initialSize, double loadFactor) {
-        this.initialSize = initialSize;
+        this.map = (ArrayList<Entry>[]) new ArrayList[initialSize];
+        this.size = 0;
         this.loadFactor = loadFactor;
-        bucket = new ArrayList[initialSize];
-        threshold = (int) (initialSize * loadFactor);
+        this.keys = new HashSet<K>();
     }
-
+    //sk
     @Override
     public void clear() {
-        bucket = new ArrayList[initialSize];
-        size = 0;
+        this.map = (ArrayList<Entry>[]) new ArrayList[DEFAULT_INIT_SIZE];
+        this.size = 0;
+        this.keys = new HashSet<K>();
     }
 
+    ///sk
     @Override
     /** Returns true if this map contains a mapping for the specified key. */
     public boolean containsKey(K key) {
-        return set.contains(key);
+        return getEntry(key) != null;
     }
 
     /**
@@ -45,25 +44,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * map contains no mapping for the key.
      */
 
+    //sk
     @Override
     public V get(K key) {
-        if (containsKey(key)) {
-            int hash = key.hashCode();
-            int index = hash % initialSize;
-            for (int i = 0; i < bucket[index].size(); i++) {
-                Entry temp = (Entry) bucket[index].get(i);
-                if (temp.key.equals(key)) {
-                    return temp.val;
-                }
-            }
+        Entry e = getEntry(key);
+        if (e == null) {
+            return null;
         }
-        return null;
+        return e.value;
     }
 
     /** Returns the number of key-value mappings in this map. */
+    //sk
     @Override
     public int size() {
-        return this.size();
+        return this.size;
     }
 
     /**
@@ -74,67 +69,88 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public void put(K key, V value) {
-        if (size > threshold) {
-            resize();
+        Entry e = getEntry(key);
+        if (e != null) {
+            e.value = value;
+            return;
         }
-        int hash = key.hashCode();
-        int index = hash % initialSize;
-        if (bucket[index] == null) {
-            bucket[index] = new ArrayList();
-            bucket[index].add(new Entry(key, value));
-            size++;
-        } else {
-            if (containsKey(key)) {
-                for (int i = 0; i < bucket[index].size(); i++) {
-                    Entry temp = (Entry) bucket[index].get(i);
-                    if (temp.key.equals(key)) {
-                        temp.val = value;
-                    }
-                }
-            } else {
-                bucket[index].add(new Entry(key, value));
-                size++;
-            }
+
+        if (((double) this.size) / this.map.length > this.loadFactor) {
+            this.rehash(this.map.length * 2);
         }
+        this.size++;
+        this.keys.add(key);
+        int idx = hash(key);
+        ArrayList<Entry> bucket = this.map[idx];
+        if( bucket == null) {
+            bucket = new ArrayList<Entry>();
+            map[idx] = bucket;
+        }
+        bucket.add(new Entry(key, value));
     }
 
     @Override
     /** Returns a Set view of the keys contained in this map. */
+    //sk
     public Set<K> keySet() {
-        return set;
+        return this.keys;
     }
 
     @Override
+    //sk
     public Iterator<K> iterator() {
-        return new MyHashMapIter();
+        return this.keys.iterator();
     }
 
-    private void resize() {
-        initialSize = initialSize * 2;
-        threshold = initialSize * threshold;
-        int hash;
-        int index;
-        ArrayList[] temp = new ArrayList[initialSize];
-        for (int i = 0; i < initialSize / 2; i++) {
-            for (int j = 0; j < bucket[i].size(); j++) {
-                Entry newEntry = (Entry) bucket[i].get(j);
-                hash = newEntry.key.hashCode();
-                index = hash % initialSize;
-                temp[index].add(newEntry);
+    ///sk
+    private int hash(K key) {
+        return hash(key, this.map.length);
+    }
+
+    //sk
+    private int hash(K key, int mapSize) {
+        return Math.floorMod(key.hashCode(), mapSize);
+    }
+
+    //sk
+    private class Entry {
+        K key;
+        V value;
+        Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    //sr
+    private void rehash(int targetSize) {
+        ArrayList<Entry>[] newMap = (ArrayList<Entry>[]) new ArrayList[targetSize];
+        for (K key : this.keys) {
+            int idx = hash(key, newMap.length);
+            ArrayList<Entry> bucket = newMap[idx];
+            if (bucket == null) {
+                bucket = new ArrayList<Entry>();
+                newMap[idx] = bucket;
+            }
+            bucket.add(getEntry(key));
+        }
+        this.map = newMap;
+    }
+
+    private Entry getEntry(K key) {
+        int idx = hash(key);
+        ArrayList<Entry> bucket = this.map[idx];
+        if(bucket != null) {
+            for (Entry entry : bucket) {
+                if(entry.key.equals(key)) {
+                    return entry;
+                }
             }
         }
+        return null;
     }
 
-    private class Entry {
-        private K key;
-        private V val;
-        Entry(K k, V v) {
-            this.key = k;
-            this.val = v;
-        }
-    }
     private class MyHashMapIter implements Iterator<K> {
-
         /**
          * Create a new ULLMapIter by setting cur to the first node in the
          * linked list that stores the key-value pairs.
