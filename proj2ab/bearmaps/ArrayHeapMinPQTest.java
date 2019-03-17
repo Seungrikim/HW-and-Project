@@ -25,12 +25,12 @@ public class ArrayHeapMinPQTest {
     @Test
     public void testSamePriority() {
         ArrayHeapMinPQ test = new ArrayHeapMinPQ();
-        test.add(7, 1);
-        test.add(6, 1);
-        test.add(5, 1);
-        test.add(4, 1);
-        test.add(3, 1);
-        test.add(2, 1);
+        test.add(1, 1);
+        test.add(2, 2);
+        test.add(3, 3);
+        test.add(4, 2);
+        test.removeSmallest();
+
     }
 
     /*@Test
@@ -200,7 +200,7 @@ public class ArrayHeapMinPQTest {
         test.add("f", 4);
         test.add("g", 5);
         int i = 0;
-        String[] expected = {"c", "d", "f", "e", "g"};
+        String[] expected = {"c", "d", "e", "f", "g"};
         while (test.size() > 1) {
             assertEquals(expected[i], test.removeSmallest());
             i += 1;
