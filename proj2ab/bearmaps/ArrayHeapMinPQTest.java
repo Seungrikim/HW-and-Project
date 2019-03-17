@@ -27,8 +27,8 @@ public class ArrayHeapMinPQTest {
         ArrayHeapMinPQ test = new ArrayHeapMinPQ();
         test.add(1, 1);
         test.add(2, 2);
-        test.add(3, 3);
-        test.add(4, 2);
+        test.add(3, 2);
+        test.add(4, 4);
         test.removeSmallest();
 
     }

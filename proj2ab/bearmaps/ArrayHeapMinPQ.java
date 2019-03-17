@@ -64,7 +64,6 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         swimDown(1);
 
         return smallest;
-
     }
 
     /* Returns the number of items in the PQ. */
@@ -111,9 +110,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         // what if there is no left or right child exist?
         if (rightChild(i) > size && leftChild(i) == size) {
             return leftChild(i);
-        } else if (heap.get(leftChild(i)).getPriority() == heap.get(rightChild(i)).getPriority()) {
-            return rightChild(i);
-        } else if (heap.get(leftChild(i)).getPriority() > heap.get(rightChild(i)).getPriority()) {
+        } else if (heap.get(leftChild(i)).getPriority() >= heap.get(rightChild(i)).getPriority()) {
             return rightChild(i);
         } else {
             return leftChild(i);
