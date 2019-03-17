@@ -29,9 +29,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         PriorityNode newNode = new PriorityNode(item, priority);
         size += 1;
-        container.put(item, size);//hashmasp
-        heap.add(size, newNode);//arraylist
-        swimUp(size);//helper
+        container.put(item, size); //hashmasp
+        heap.add(size, newNode); //arraylist
+        swimUp(size); //helper
     }
 
     /* Returns true if the PQ contains the given item. */
@@ -177,4 +177,3 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
     }
 }
-

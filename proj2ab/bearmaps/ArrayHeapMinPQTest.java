@@ -25,12 +25,12 @@ public class ArrayHeapMinPQTest {
     @Test
     public void testSamePriority() {
         ArrayHeapMinPQ test = new ArrayHeapMinPQ();
-        test.add(7,1);
-        test.add(6,1);
-        test.add(5,1);
-        test.add(4,1);
-        test.add(3,1);
-        test.add(2,1);
+        test.add(7, 1);
+        test.add(6, 1);
+        test.add(5, 1);
+        test.add(4, 1);
+        test.add(3, 1);
+        test.add(2, 1);
     }
 
     /*@Test
@@ -124,7 +124,8 @@ public class ArrayHeapMinPQTest {
                 test.add(j, k);
             }
         }
-        System.out.println("Total time elapsed for add with random: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("Total time elapsed for add with random: "
+                + sw.elapsedTime() +  " seconds.");
 
         sw = new Stopwatch();
         int testsize = test.size();
@@ -133,14 +134,16 @@ public class ArrayHeapMinPQTest {
             test.removeSmallest();
         }
         System.out.println("size after remove:" + test.size());
-        System.out.println("Total time elapsed for remove: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("Total time elapsed for remove: "
+                + sw.elapsedTime() +  " seconds.");
 
         sw = new Stopwatch();
         for (int i = 0; i < 1000000; i++) {
             double k = StdRandom.uniform(0, 10);
-            test.add(i,k);
+            test.add(i, k);
         }
-        System.out.println("Total time elapsed for add with constant: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("Total time elapsed for add with constant: "
+                + sw.elapsedTime() +  " seconds.");
 
         System.out.println("size before changePriorty with constant:" + test.size());
         sw = new Stopwatch();
@@ -149,8 +152,10 @@ public class ArrayHeapMinPQTest {
             double k = StdRandom.uniform(0, 10);
             test.changePriority(j, k);
         }
-        System.out.println("size after changepriorty with constant:" + test.size());
-        System.out.println("Total time elapsed for changePriorty: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("size after changepriorty with constant:"
+                + test.size());
+        System.out.println("Total time elapsed for changePriorty: "
+                + sw.elapsedTime() +  " seconds.");
 
         sw = new Stopwatch();
         testsize = test.size();
@@ -169,7 +174,8 @@ public class ArrayHeapMinPQTest {
                 test.add(j, k);
             }
         }
-        System.out.println("Total time elapsed for add again with random: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("Total time elapsed for add again with random: "
+                + sw.elapsedTime() +  " seconds.");
 
         System.out.println("size before changePriorty:" + test.size());
         /*this test should catch the NosuchElemetException, But it also may passed

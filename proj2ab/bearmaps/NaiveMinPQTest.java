@@ -16,7 +16,8 @@ public class NaiveMinPQTest {
                 test.add(j, k);
             }
         }
-        System.out.println("Total time elapsed for add with random: " + sw.elapsedTime() + " seconds.");
+        System.out.println("Total time elapsed for add with random: "
+                + sw.elapsedTime() + " seconds.");
 
         sw = new Stopwatch();
         int testsize = test.size();
@@ -25,16 +26,19 @@ public class NaiveMinPQTest {
             test.removeSmallest();
         }
         System.out.println("size after remove:" + test.size());
-        System.out.println("Total time elapsed for remove: " + sw.elapsedTime() + " seconds.");
+        System.out.println("Total time elapsed for remove: "
+                + sw.elapsedTime() + " seconds.");
 
         sw = new Stopwatch();
         for (int i = 0; i < 1000000; i++) {
             double k = StdRandom.uniform(0, 10);
             test.add(i, k);
         }
-        System.out.println("Total time elapsed for add with constant: " + sw.elapsedTime() + " seconds.");
+        System.out.println("Total time elapsed for add with constant: "
+                + sw.elapsedTime() + " seconds.");
 
-        System.out.println("size before changePriorty with constant:" + test.size());
+        System.out.println("size before changePriorty with constant:"
+                + test.size());
         sw = new Stopwatch();
         for (int i = 0; i < 1000000; i++) {
             int j = StdRandom.uniform(0, 1000000);
@@ -42,7 +46,8 @@ public class NaiveMinPQTest {
             test.changePriority(j, k);
         }
         System.out.println("size after changepriorty with constant:" + test.size());
-        System.out.println("Total time elapsed for changePriorty: " + sw.elapsedTime() + " seconds.");
+        System.out.println("Total time elapsed for changePriorty: "
+                + sw.elapsedTime() + " seconds.");
 
         sw = new Stopwatch();
         testsize = test.size();
