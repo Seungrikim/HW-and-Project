@@ -29,9 +29,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         PriorityNode newNode = new PriorityNode(item, priority);
         size += 1;
-        container.put(item, size);
-        heap.add(size, newNode);
-        swimUp(size);
+        container.put(item, size);//hashmasp
+        heap.add(size, newNode);//arraylist
+        swimUp(size);//helper
     }
 
     /* Returns true if the PQ contains the given item. */
@@ -78,6 +78,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     @Override
     public void changePriority(T item, double priority) {
         // using contain to find the item, and get the index-> swap with last positioon-> swimup
+        if (!contains(item)) {
+            throw new NoSuchElementException("No mathed item in heap");
+        }
         int index = container.get(item);
         heap.get(index).priority = priority;
         ///swapItem(index, size);
@@ -131,7 +134,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         /*usign set method in arraylist*/
     }
 
-    /*swim up to the heap until find right position(package private)*/
+    /*swim up to the heap until find right position*/
     private void swimUp(int i) {
         if (i == 1 || heap.get(i).getPriority() >= heap.get(parent(i)).getPriority()) {
             return;
