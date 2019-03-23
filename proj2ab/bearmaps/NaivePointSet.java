@@ -36,8 +36,8 @@ public class NaivePointSet implements PointSet {
         Point p7 = new Point(2.9, 4.1);
         Point p8 = new Point(2.0, 4.0);
 
-        NaivePointSet Kd = new NaivePointSet(List.of(p1, p2, p3, p7, p8));
-        Point ret = Kd.nearest(3.0, 4.0); // returns p2
+        NaivePointSet nv = new NaivePointSet(List.of(p1, p2, p3, p7, p8));
+        Point ret = nv.nearest(3.0, 4.0); // returns p2
         System.out.println(ret.getX()); // evaluates to 3.3
         System.out.println(ret.getY()); // evaluates to 4.4); // evaluates to 4.4
     }
