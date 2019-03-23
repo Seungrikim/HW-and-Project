@@ -23,8 +23,8 @@ public class KDTreeTest {
         Point p6 = new Point(1, 5);
         Point p7 = new Point(4, 4);
 
-        KDTree Kd = new KDTree(List.of(p1, p2, p3, p4, p5, p6, p7));
-        Point ret = Kd.nearest(0, 7); // returns p2
+        KDTree kd = new KDTree(List.of(p1, p2, p3, p4, p5, p6, p7));
+        Point ret = kd.nearest(0, 7); // returns p2
         System.out.println(ret.getX()); // evaluates to 3.3
         System.out.println(ret.getY()); // evaluates to 4.4
     }
@@ -40,20 +40,20 @@ public class KDTreeTest {
         Point p7 = new Point(2.9, 4.1);
         Point p8 = new Point(2.0, 4.0);
 
-        KDTree Kd = new KDTree(List.of(p1, p2, p3, p7, p8));
-        Point ret = Kd.nearest(3.0, 4.0); // returns p2
+        KDTree kd = new KDTree(List.of(p1, p2, p3, p7, p8));
+        Point ret = kd.nearest(3.0, 4.0); // returns p2
         System.out.println(ret.getX()); // evaluates to 3.3
         System.out.println(ret.getY()); // evaluates to 4.4
     }
 
     @Test
     public void edgecase() {
-        Point p1 = new Point(2,4);
-        Point p2 = new Point(2,4);
-        Point p3 = new Point(2,4);
-        Point p4 = new Point(2,0);
-        Point p5 = new Point(2,0);
-        Point p6 = new Point(0,0);
+        Point p1 = new Point(2, 4);
+        Point p2 = new Point(2, 4);
+        Point p3 = new Point(2, 4);
+        Point p4 = new Point(2, 0);
+        Point p5 = new Point(2, 0);
+        Point p6 = new Point(0, 0);
 
         KDTree kd = new KDTree(List.of(p1, p2, p3, p4, p5, p6));
     }
@@ -78,7 +78,7 @@ public class KDTreeTest {
         NaivePointSet np = new NaivePointSet(points);
         KDTree kd = new KDTree(points);
 
-        List<Point> queries= randomPoints(queryCount);
+        List<Point> queries = randomPoints(queryCount);
         for (Point p : queries) {
             Point expected = np.nearest(p.getX(), p.getY());
             Point actual = kd.nearest(p.getX(), p.getY());
@@ -90,7 +90,7 @@ public class KDTreeTest {
         List<Point> points = randomPoints(pointCount);
         NaivePointSet np = new NaivePointSet(points);
         Stopwatch sw = new Stopwatch();
-        List<Point> queries= randomPoints(queryCount);
+        List<Point> queries = randomPoints(queryCount);
         for (Point p : queries) {
             np.nearest(p.getX(), p.getY());
         }
@@ -103,7 +103,7 @@ public class KDTreeTest {
         List<Point> points = randomPoints(pointCount);
         KDTree kd = new KDTree(points);
         Stopwatch sw = new Stopwatch();
-        List<Point> queries= randomPoints(queryCount);
+        List<Point> queries = randomPoints(queryCount);
         for (Point p : queries) {
             kd.nearest(p.getX(), p.getY());
         }
@@ -117,9 +117,9 @@ public class KDTreeTest {
         double[] ratios = new double[size];
         int pointCount = 100;
         for (int i = 0; i < size; i++) {
-            double naive_time = testRuntimeForNaive(pointCount, queryCouny);
-            double kd_time = testRuntimeForKdtree(pointCount, queryCouny);
-            ratios[i] = naive_time/kd_time;
+            double naivetime = testRuntimeForNaive(pointCount, queryCouny);
+            double kdtime = testRuntimeForKdtree(pointCount, queryCouny);
+            ratios[i] = naivetime / kdtime;
             pointCount = pointCount * 10;
         }
         for (double i : ratios) {
