@@ -23,7 +23,7 @@ public class KDTreeTest {
         Point p6 = new Point(1, 5);
         Point p7 = new Point(4, 4);
 
-        KdTree Kd = new KdTree(List.of(p1, p2, p3, p4, p5, p6, p7));
+        KDTree Kd = new KDTree(List.of(p1, p2, p3, p4, p5, p6, p7));
         Point ret = Kd.nearest(0, 7); // returns p2
         System.out.println(ret.getX()); // evaluates to 3.3
         System.out.println(ret.getY()); // evaluates to 4.4
@@ -40,7 +40,7 @@ public class KDTreeTest {
         Point p7 = new Point(2.9, 4.1);
         Point p8 = new Point(2.0, 4.0);
 
-        KdTree Kd = new KdTree(List.of(p1, p2, p3, p7, p8));
+        KDTree Kd = new KDTree(List.of(p1, p2, p3, p7, p8));
         Point ret = Kd.nearest(3.0, 4.0); // returns p2
         System.out.println(ret.getX()); // evaluates to 3.3
         System.out.println(ret.getY()); // evaluates to 4.4
@@ -55,7 +55,7 @@ public class KDTreeTest {
         Point p5 = new Point(2,0);
         Point p6 = new Point(0,0);
 
-        KdTree kd = new KdTree(List.of(p1, p2, p3, p4, p5, p6));
+        KDTree kd = new KDTree(List.of(p1, p2, p3, p4, p5, p6));
     }
 
 
@@ -76,7 +76,7 @@ public class KDTreeTest {
     private void testWithPointsAndQUereis(int pointCount, int queryCount) {
         List<Point> points = randomPoints(pointCount);
         NaivePointSet np = new NaivePointSet(points);
-        KdTree kd = new KdTree(points);
+        KDTree kd = new KDTree(points);
 
         List<Point> queries= randomPoints(queryCount);
         for (Point p : queries) {
@@ -101,7 +101,7 @@ public class KDTreeTest {
 
     private double testRuntimeForKdtree(int pointCount, int queryCount) {
         List<Point> points = randomPoints(pointCount);
-        KdTree kd = new KdTree(points);
+        KDTree kd = new KDTree(points);
         Stopwatch sw = new Stopwatch();
         List<Point> queries= randomPoints(queryCount);
         for (Point p : queries) {
@@ -129,7 +129,7 @@ public class KDTreeTest {
 
     @Test
     public void testWithsize() {
-        int pointCount = 1000000;
+        int pointCount = 100000;
         int queryCount = 10000;
         double naiveTime = testRuntimeForNaive(pointCount, queryCount);
         double kdTime = testRuntimeForKdtree(pointCount, queryCount);

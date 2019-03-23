@@ -2,9 +2,9 @@ package bearmaps;
 
 import java.util.List;
 
-public class KdTree implements PointSet {
+//@source from professor Hug's Video
+public class KDTree implements PointSet {
     private static final boolean HORIZONTAL = false;
-    private static final boolean Vertical = true;
     private Node root;
 
     private class Node {
@@ -13,13 +13,13 @@ public class KdTree implements PointSet {
         private Node leftChild;
         private Node rightChild;
 
-        public Node(Point p, boolean o) {
+        private Node(Point p, boolean o) {
             point = p;
             orientation = o;
         }
     }
 
-    public KdTree(List<Point> points) {
+    public KDTree(List<Point> points) {
         for (Point p : points) {
             root = add(p, root, HORIZONTAL);
         }
@@ -27,17 +27,16 @@ public class KdTree implements PointSet {
 
     public Point nearest(double x, double y) {
         Point goal = new Point(x, y);
-        Node Best  = root;
-        return nearestHelper(root, goal, Best).point;
+        Node best  = root;
+        return nearestHelper(root, goal, best).point;
     }
 
     private Node nearestHelper(Node n, Point goal, Node best) {
         if (n == null) {
             return best;
         }
-
-        Node goodSide, badSide;
-
+        Node goodSide;
+        Node badSide;
         if (n.point.distance(n.point, goal) < best.point.distance(best.point, goal)) {
             best = n;
         }
@@ -52,7 +51,6 @@ public class KdTree implements PointSet {
         if (usefulBad(n, goal, best)) {
             best = nearestHelper(badSide, goal, best);
         }
-
         /*} else if (comparePoints(goal, n.point, n.orientation) >= 0 || usefulBad(n, goal, best)){
             best = nearestHelper(n.rightChild, goal, best);
         }*/
@@ -81,10 +79,10 @@ public class KdTree implements PointSet {
         if (p.equals(r.point)) {
             return r;
         }
-        int cmp = comparePoints(p, r.point, o);
-        if (cmp < 0) {
-            r.leftChild = add(p,r.leftChild, !o);
-        } else if (cmp >= 0) {
+        int cmpare = comparePoints(p, r.point, o);
+        if (cmpare < 0) {
+            r.leftChild = add(p, r.leftChild, !o);
+        } else if (cmpare >= 0) {
             r.rightChild = add(p, r.rightChild, !o);
         }
         return r;
