@@ -18,7 +18,6 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     public AStarSolver(AStarGraph<Vertex> input, Vertex start, Vertex end, double timeout) {
         solution = new ArrayList<>();
         Vertex current = start;
-        //solution.add(end);
         Stopwatch sw = new Stopwatch();
         ArrayHeapMinPQ<Vertex> fringe = new ArrayHeapMinPQ<>();
         //DoubleMapPQ<Vertex> fringe = new DoubleMapPQ<>();
@@ -35,7 +34,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             for (WeightedEdge<Vertex> e : input.neighbors(current)) {
                 if (fringe.size() == 0) {
                     outcome = SolverOutcome.UNSOLVABLE;
-                    break;
+                    return;
                 }
                 heuristic = input.estimatedDistanceToGoal(e.to(), end);
                 if (!distTo.containsKey(e.to())) {
@@ -44,8 +43,8 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
                     fringe.add(e.to(), distTo.get(e.to()) + heuristic);
                 } else {
                     if (distTo.get(e.from()) + e.weight() < distTo.get(e.to())) {
-                        distTo.put(e.to(), distTo.get(e.from()) + e.weight());
-                        edgeTo.put(e.to(), e.from());
+                        distTo.replace(e.to(), distTo.get(e.from()) + e.weight());
+                        edgeTo.replace(e.to(), e.from());
                         if (fringe.contains(e.to())) {
                             fringe.changePriority(e.to(), distTo.get(e.to()) + heuristic);
                         } else {
@@ -88,10 +87,17 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         LinkedList<Vertex> tempSolution = new LinkedList<>();
         if (start != end) {
             tempSolution.addFirst(end);
+        } else {
+            tempSolution.addFirst(start);
+            return tempSolution;
         }
         while (!edgeTo.get(end).equals(null) && !edgeTo.get(end).equals(start)) {
             tempSolution.addFirst((Vertex) edgeTo.get(end));
             end = (Vertex) edgeTo.get(end);
+            /*if (end == start) {
+                tempSolution.addFirst(start);
+                return tempSolution;
+            }*/
         }
         tempSolution.addFirst(start);
         return tempSolution;
