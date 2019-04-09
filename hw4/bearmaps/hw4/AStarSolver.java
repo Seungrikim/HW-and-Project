@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import bearmaps.proj2ab.ArrayHeapMinPQ;
+import bearmaps.proj2ab.DoubleMapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
@@ -19,8 +20,8 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         solution = new ArrayList<>();
         Vertex current = start;
         Stopwatch sw = new Stopwatch();
-        ArrayHeapMinPQ<Vertex> fringe = new ArrayHeapMinPQ<>();
-        //DoubleMapPQ<Vertex> fringe = new DoubleMapPQ<>();
+        //ArrayHeapMinPQ<Vertex> fringe = new ArrayHeapMinPQ<>();
+        DoubleMapPQ<Vertex> fringe = new DoubleMapPQ<>();
         HashMap<Vertex, Double> distTo = new HashMap();
         HashMap<Vertex, Vertex> edgeTo = new HashMap();
         double heuristic = input.estimatedDistanceToGoal(start, end);
@@ -93,15 +94,15 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         LinkedList<Vertex> tempSolution = new LinkedList<>();
         tempSolution.addFirst(end);
         Vertex path = end;
-        while (!edgeTo.get(path).equals(null) && !edgeTo.get(path).equals(start)) {
+        while (!path.equals(start)) {
             tempSolution.addFirst((Vertex) edgeTo.get(path));
             path = (Vertex) edgeTo.get(path);
-            if (edgeTo.get(path) == null) {
+            /*if (edgeTo.get(path).equals(null)) {
                 tempSolution.addFirst(start);
                 return tempSolution;
-            }
+            }*/
         }
-        tempSolution.addFirst(start);
+        //tempSolution.addFirst(start);
         return tempSolution;
     }
 }
