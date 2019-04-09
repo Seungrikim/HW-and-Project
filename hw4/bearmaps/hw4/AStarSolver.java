@@ -36,7 +36,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             numStatesExplored = 0;
             return;
         }
-        while (sw.elapsedTime() < timeout) {
+        while (fringe.size() != 0 && sw.elapsedTime() < timeout) {
             //List<WeightedEdge<Vertex>> neighbor = input.neighbors(current);
             for (WeightedEdge<Vertex> e : input.neighbors(current)) {
                 if (fringe.size() == 0) {
