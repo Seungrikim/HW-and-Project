@@ -35,7 +35,6 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             numStatesExplored = 0;
             return;
         }
-
         while (sw.elapsedTime() < timeout) {
             //List<WeightedEdge<Vertex>> neighbor = input.neighbors(current);
             for (WeightedEdge<Vertex> e : input.neighbors(current)) {
@@ -97,6 +96,10 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         while (!edgeTo.get(path).equals(null) && !edgeTo.get(path).equals(start)) {
             tempSolution.addFirst((Vertex) edgeTo.get(path));
             path = (Vertex) edgeTo.get(path);
+            if (edgeTo.get(path) == null) {
+                tempSolution.addFirst(start);
+                return tempSolution;
+            }
         }
         tempSolution.addFirst(start);
         return tempSolution;
