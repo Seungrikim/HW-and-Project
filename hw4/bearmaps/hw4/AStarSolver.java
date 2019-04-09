@@ -24,9 +24,16 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         HashMap<Vertex, Double> distTo = new HashMap();
         HashMap<Vertex, Vertex> edgeTo = new HashMap();
         double heuristic = input.estimatedDistanceToGoal(start, end);
-        if (!start.equals(null)) {
-            fringe.add(start, heuristic);
-            distTo.put(start, 0.0);
+        fringe.add(start, heuristic);
+        distTo.put(start, 0.0);
+        edgeTo.put(start, null);
+        if (start == end) {
+            solution.add(start);
+            solutionWeight = distTo.get(current);
+            outcome = SolverOutcome.SOLVED;
+            timeSpent = sw.elapsedTime();
+            numStatesExplored = 0;
+            return;
         }
 
         while (sw.elapsedTime() < timeout) {
@@ -85,19 +92,11 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
     private List<Vertex> solutionHelper(HashMap edgeTo, Vertex start, Vertex end) {
         LinkedList<Vertex> tempSolution = new LinkedList<>();
-        if (start != end) {
-            tempSolution.addFirst(end);
-        } else {
-            tempSolution.addFirst(start);
-            return tempSolution;
-        }
-        while (!edgeTo.get(end).equals(null) && !edgeTo.get(end).equals(start)) {
-            tempSolution.addFirst((Vertex) edgeTo.get(end));
-            end = (Vertex) edgeTo.get(end);
-            /*if (end == start) {
-                tempSolution.addFirst(start);
-                return tempSolution;
-            }*/
+        tempSolution.addFirst(end);
+        Vertex path = end;
+        while (!edgeTo.get(path).equals(null) && !edgeTo.get(path).equals(start)) {
+            tempSolution.addFirst((Vertex) edgeTo.get(path));
+            path = (Vertex) edgeTo.get(path);
         }
         tempSolution.addFirst(start);
         return tempSolution;
