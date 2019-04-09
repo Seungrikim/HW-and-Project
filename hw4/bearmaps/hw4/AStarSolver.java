@@ -25,8 +25,10 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         HashMap<Vertex, Double> distTo = new HashMap();
         HashMap<Vertex, Vertex> edgeTo = new HashMap();
         double heuristic = input.estimatedDistanceToGoal(start, end);
-        fringe.add(start, heuristic);
-        distTo.put(start, 0.0);
+        if (!start.equals(null)) {
+            fringe.add(start, heuristic);
+            distTo.put(start, 0.0);
+        }
 
         while (sw.elapsedTime() < timeout) {
             //List<WeightedEdge<Vertex>> neighbor = input.neighbors(current);
@@ -90,7 +92,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     private List<Vertex> solutionHelper(HashMap edgeTo, Vertex start, Vertex end) {
         LinkedList<Vertex> tempSolution = new LinkedList<>();
         tempSolution.addFirst(end);
-        while (!edgeTo.get(end).equals(start)) {
+        while (!edgeTo.get(end).equals(null) && !edgeTo.get(end).equals(start)) {
             tempSolution.addFirst((Vertex) edgeTo.get(end));
             end = (Vertex) edgeTo.get(end);
         }
