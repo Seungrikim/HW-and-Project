@@ -33,13 +33,11 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         while (sw.elapsedTime() < timeout) {
             //List<WeightedEdge<Vertex>> neighbor = input.neighbors(current);
             for (WeightedEdge<Vertex> e : input.neighbors(current)) {
-                if (fringe.equals(null)) {
+                if (fringe.size() == 0) {
                     outcome = SolverOutcome.UNSOLVABLE;
                     return;
                 }
-                heuristic = input.estimatedDistanceToGoal(e.to(), end);// has problem?
-                //System.out.println("vertex is " + e.to());
-                //System.out.println("heuristic is " + heuristic);
+                heuristic = input.estimatedDistanceToGoal(e.to(), end);
                 if (!distTo.containsKey(e.to())) {
                     distTo.put(e.to(), e.weight() + distTo.get(e.from()));
                     edgeTo.put(e.to(), e.from());
@@ -56,9 +54,6 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
                     }
                 }
             }
-            //solution.add(fringe.getSmallest());
-            //System.out.println("smallest is " + fringe.getSmallest());
-            //System.out.println("heuristic is " + input.estimatedDistanceToGoal(fringe.getSmallest(), end));
             current = fringe.getSmallest();
             numStatesExplored += 1;
             if (fringe.getSmallest().equals(end)) {
@@ -92,7 +87,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     private List<Vertex> solutionHelper(HashMap edgeTo, Vertex start, Vertex end) {
         LinkedList<Vertex> tempSolution = new LinkedList<>();
         tempSolution.addFirst(end);
-        while (!edgeTo.get(end).equals(null) && !edgeTo.get(end).equals(start)) {
+        while (!(end.equals(null) || edgeTo.get(end).equals(start))) {
             tempSolution.addFirst((Vertex) edgeTo.get(end));
             end = (Vertex) edgeTo.get(end);
         }
@@ -100,4 +95,3 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         return tempSolution;
     }
 }
-
