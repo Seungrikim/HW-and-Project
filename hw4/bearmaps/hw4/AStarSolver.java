@@ -70,7 +70,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             }
             fringe.removeSmallest();
         }
-        outcome = SolverOutcome.UNSOLVABLE;
+        outcome = SolverOutcome.TIMEOUT;
         timeSpent = sw.elapsedTime();
     }
     public SolverOutcome outcome() {
