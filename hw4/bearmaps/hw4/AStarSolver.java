@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import bearmaps.proj2ab.ArrayHeapMinPQ;
 import bearmaps.proj2ab.DoubleMapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
