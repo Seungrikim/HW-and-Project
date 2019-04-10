@@ -38,10 +38,6 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         while (fringe.size() != 0 && sw.elapsedTime() < timeout) {
             //List<WeightedEdge<Vertex>> neighbor = input.neighbors(current);
             for (WeightedEdge<Vertex> e : input.neighbors(current)) {
-                if (fringe.size() == 0) {
-                    outcome = SolverOutcome.UNSOLVABLE;
-                    return;
-                }
                 heuristic = input.estimatedDistanceToGoal(e.to(), end);
                 if (!distTo.containsKey(e.to())) {
                     distTo.put(e.to(), e.weight() + distTo.get(e.from()));
@@ -70,6 +66,12 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             }
             fringe.removeSmallest();
         }
+
+        if (fringe.size() == 0) {
+            outcome = SolverOutcome.UNSOLVABLE;
+            return;
+        }
+
         outcome = SolverOutcome.TIMEOUT;
         timeSpent = sw.elapsedTime();
     }
