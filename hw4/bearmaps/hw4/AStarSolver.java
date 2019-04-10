@@ -57,7 +57,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             }
             current = fringe.getSmallest();
             numStatesExplored += 1;
-            if (fringe.getSmallest().equals(end)) {
+            if (current.equals(end)) {
                 solution = solutionHelper(edgeTo, start, end);
                 solutionWeight = distTo.get(current);
                 outcome = SolverOutcome.SOLVED;
@@ -69,6 +69,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
         if (fringe.size() == 0) {
             outcome = SolverOutcome.UNSOLVABLE;
+            timeSpent = sw.elapsedTime();
             return;
         }
 
