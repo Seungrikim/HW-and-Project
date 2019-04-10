@@ -40,13 +40,13 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             for (WeightedEdge<Vertex> e : input.neighbors(current)) {
                 heuristic = input.estimatedDistanceToGoal(e.to(), end);
                 if (!distTo.containsKey(e.to())) {
-                    distTo.put(e.to(), e.weight() + distTo.get(e.from()));
+                    distTo.put(current, e.weight() + distTo.get(current));
                     edgeTo.put(e.to(), e.from());
                     fringe.add(e.to(), distTo.get(e.to()) + heuristic);
                 } else {
                     if (distTo.get(e.from()) + e.weight() < distTo.get(e.to())) {
-                        distTo.replace(e.to(), distTo.get(e.from()) + e.weight());
-                        edgeTo.replace(e.to(), e.from());
+                        distTo.replace(e.to(), distTo.get(current) + e.weight());
+                        edgeTo.replace(e.to(), current);
                         if (fringe.contains(e.to())) {
                             fringe.changePriority(e.to(), distTo.get(e.to()) + heuristic);
                         } else {
