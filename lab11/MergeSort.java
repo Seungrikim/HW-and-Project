@@ -42,8 +42,24 @@ public class MergeSort {
      */
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
-        // Your code here!
-        return null;
+
+        Queue<Queue<Item>> qOfqs = new Queue<>();
+        for (Item item : items) {
+            Queue<Item> q = new Queue<>();
+            q.enqueue(item);
+            qOfqs.enqueue(q);
+        }
+        return qOfqs;
+
+        /*Queue<Queue<Item>> qOfq = new Queue<>();
+        if (items.isEmpty()) {
+            return null;
+        } else {
+            Queue<Item> item = new Queue<>();
+            item.enqueue(items.dequeue());
+            qOfq.enqueue(item);
+        }
+        return qOfq;*/
     }
 
     /**
@@ -61,8 +77,25 @@ public class MergeSort {
      */
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
-        // Your code here!
-        return null;
+        Queue<Item> merged = new Queue<>();
+        while (!q1.isEmpty() && q2.isEmpty()) {
+            merged.enqueue(getMin(q1, q2));
+        }
+        return merged;
+
+        /*Queue<Item> result = new Queue<>();
+        if (q2.isEmpty() && q1.isEmpty()) {
+            return null;
+        } else {
+            if (getMin(q1,q2).equals(q1.peek())) {
+                result.enqueue(q1.dequeue());
+            } else {
+                result.enqueue(q2.dequeue());
+            }
+            /*q1.enqueue(q2.dequeue());
+            mergeSortedQueues(q1, q2);
+        }
+        return result;*/
     }
 
     /**
@@ -77,7 +110,19 @@ public class MergeSort {
      */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        if (items == null || items.isEmpty()) {
+            return items;
+        }
+
+        Queue<Queue<Item>> qOfqs = makeSingleItemQueues(items);
+
+        while (qOfqs.size() > 1) {
+            Queue<Item> q1 = qOfqs.dequeue();
+            Queue<Item> q2 = qOfqs.dequeue();
+            Queue<Item> merged = mergeSortedQueues(q1, q2);
+            qOfqs.enqueue(merged);
+        }
+
+        return qOfqs.dequeue();
     }
 }
