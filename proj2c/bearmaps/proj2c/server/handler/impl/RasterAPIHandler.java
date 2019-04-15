@@ -103,9 +103,9 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
         //System.out.println("starterX: " + ullonX);
         int lrlonX = computeX(lrlon, londpp);
         //System.out.println("endX: " + lrlonX);
-        int ullatY = computeY(lrlat, latdpp);
+        int ullatY = computeLat(lrlat, latdpp);
         //System.out.println("starterY: " + ullatY);
-        int lrlatY = computeY(ullat, latdpp);
+        int lrlatY = computeLat(ullat, latdpp);
         //System.out.println("endY: " + lrlatY);
 
         String[][] render_grid = new String[ullatY - lrlatY + 1][lrlonX - ullonX + 1];
@@ -190,7 +190,7 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
         return x;
     }
 
-    private int computeY(double point, double latdpp) {
+    private int computeLat(double point, double latdpp) {
         int y = 0;
         while(!boundaryY(point, latdpp, y)) {
             y += 1;
