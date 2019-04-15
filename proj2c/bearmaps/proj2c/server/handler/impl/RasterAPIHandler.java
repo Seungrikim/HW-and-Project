@@ -12,13 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
-import static bearmaps.proj2c.utils.Constants.SEMANTIC_STREET_GRAPH;
-import static bearmaps.proj2c.utils.Constants.ROUTE_LIST;
+import static bearmaps.proj2c.utils.Constants.*;
 
 /**
  * Handles requests from the web browser for map images. These images
@@ -87,9 +84,158 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
         //System.out.println("yo, wanna know the parameters given by the web browser? They are:");
         //System.out.println(requestParams);
         Map<String, Object> results = new HashMap<>();
-        System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
-                + "your browser.");
+        //System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
+                ///+ "your browser.");
+
+        double lrlon = requestParams.get("lrlon");
+        double ullon = requestParams.get("ullon");
+        double ullat = requestParams.get("ullat");
+        double lrlat = requestParams.get("lrlat");
+        double width = requestParams.get("w");
+
+        int depth = computeDepth(lrlon, ullon, width);
+        //System.out.println("depth: " + depth);
+        double londpp = computeLonDPP(depth);
+        //System.out.println("londpp: " + londpp);
+        double latdpp = computeLatDPP(depth);
+        //System.out.println("latdpp: " + latdpp);
+        int ullonX = computeX(ullon, londpp);
+        //System.out.println("starterX: " + ullonX);
+        int lrlonX = computeX(lrlon, londpp);
+        //System.out.println("endX: " + lrlonX);
+        int ullatY = computeY(lrlat, latdpp);
+        //System.out.println("starterY: " + ullatY);
+        int lrlatY = computeY(ullat, latdpp);
+        //System.out.println("endY: " + lrlatY);
+
+        String[][] render_grid = new String[ullatY - lrlatY + 1][lrlonX - ullonX + 1];
+        render_grid = gridMaker(render_grid, ullonX, lrlonX, lrlatY, ullatY, depth);
+        boolean query_success = true;
+        if (outOfBound(ullon, ullat, lrlon, lrlat)) {
+            System.out.println("outOfbound");
+            return queryFail();
+        } else if (soZoomed(ullon, ullat, lrlon, lrlat)) {
+            System.out.println("soZoomed");
+            return hugeQuery();
+        }
+        //need to make simpler
+        double raster_ul_lon = computeUllon(ullonX, londpp);
+        double raster_lr_lon = computeLrlon(lrlonX, londpp);
+        double raster_ul_lat = computeUllat(lrlatY, latdpp);
+        double raster_lr_lat = computeLrlat(ullatY, latdpp);
+        results.put("raster_ul_lon", raster_ul_lon);
+        results.put("raster_lr_lon", raster_lr_lon);
+        results.put("raster_ul_lat", raster_ul_lat);
+        results.put("raster_lr_lat", raster_lr_lat);
+        results.put("depth", depth);
+        results.put("query_success", query_success);
+        results.put("render_grid", render_grid);
         return results;
+    }
+
+    /*Compute the depth of th nodes of the rastered image*/
+    private int computeDepth(double lrlon, double ullon, double width) {
+        int depth;
+        depth = (int) (Math.log(((ROOT_LRLON - ROOT_ULLON) / TILE_SIZE) /
+                ((lrlon - ullon) / width)) / Math.log(2));
+        depth += 1;
+        if (depth >= 7) {
+            return 7;
+        } else {
+            return depth;
+        }
+    }
+
+    /*Compute LonDPP based on the depth*/
+    private double computeLonDPP(double depth) {
+        double LonDPP;
+        LonDPP = ((ROOT_LRLON - ROOT_ULLON) / TILE_SIZE) / Math.pow(2, depth);
+        return LonDPP;
+    }
+
+    private double computeLatDPP(double depth) {
+        double LatDPP;
+        LatDPP = ((ROOT_ULLAT - ROOT_LRLAT) / TILE_SIZE) / Math.pow(2, depth);
+        return LatDPP;
+    }
+
+    private boolean outOfBound(double ullon, double ullat, double lrlon, double lrlat) {
+        return (ullon <= ROOT_ULLON || lrlon >= ROOT_LRLON
+                || ullat >= ROOT_ULLAT || lrlat <= ROOT_LRLAT);
+    }
+
+    private boolean soZoomed(double ullon, double ullat, double lrlon, double lrlat) {
+        return (ullon <= ROOT_ULLON && lrlon >= ROOT_LRLON
+                && ullat >= ROOT_ULLAT && lrlat <= ROOT_LRLAT);
+    }
+
+    private Map<String, Object> hugeQuery() {
+        Map<String, Object> results = new HashMap<>();
+        String[] grid = new String[]{"d0_x0_y0"};
+        results.put("render_grid", grid);
+        results.put("raster_ul_lon", ROOT_ULLON);
+        results.put("raster_ul_lat", ROOT_ULLAT);
+        results.put("raster_lr_lon", ROOT_LRLON);
+        results.put("raster_lr_lat", ROOT_LRLAT);
+        results.put("depth", 0);
+        results.put("query_success", false);
+        return results;
+    }
+
+    private int computeX(double point, double londpp) {
+        int x = 0;
+        while(!boundaryX(point, londpp, x)) {
+            x += 1;
+        }
+        return x;
+    }
+
+    private int computeY(double point, double latdpp) {
+        int y = 0;
+        while(!boundaryY(point, latdpp, y)) {
+            y += 1;
+        }
+        return y;
+    }
+
+    private double computeUllon(int boundary, double londpp) {
+        return ROOT_ULLON + (londpp * TILE_SIZE) * boundary;
+    }
+
+    private double computeLrlon(int boundary, double londpp) {
+        return ROOT_ULLON + (londpp * TILE_SIZE) * (boundary + 1);
+    }
+
+    private double computeUllat(int boundary, double latdpp) {
+        return ROOT_ULLAT - (latdpp * TILE_SIZE) * boundary;
+    }
+
+    private double computeLrlat(int boundary, double latdpp) {
+        return ROOT_ULLAT - (latdpp * TILE_SIZE) * (boundary + 1);
+    }
+
+    private boolean boundaryX(double point, double londpp, int x) {
+        return ROOT_ULLON + (londpp * TILE_SIZE) * x <= point &&
+                ROOT_ULLON + ((londpp * TILE_SIZE) * (x + 1)) >= point;
+    }
+
+    private boolean boundaryY(double point, double latdpp, int y) {
+        return ROOT_ULLAT - (latdpp * TILE_SIZE) * y >= point &&
+                ROOT_ULLAT - ((latdpp * TILE_SIZE) * (y + 1)) <= point;
+    }
+
+    private String[][] gridMaker(String[][] grid, int xStart, int xEnd, int yStart, int yEnd, int depth) {
+        int raw = 0, column = 0;
+        for (int i = yStart; i <= yEnd; i++) {
+            for (int j = xStart; j <= xEnd; j++) {
+                String img = "d" + depth + "_x" + j + "_y" + i + ".png";
+                grid[raw][column] = img;
+                column += 1;
+            }
+            column = 0;
+            raw += 1;
+        }
+        return grid;
     }
 
     @Override
@@ -212,5 +358,21 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
             }
         }
         return tileImg;
+    }
+
+    public static void main(String[] args) {
+        RasterAPIHandler rasterer = new RasterAPIHandler();
+        HashMap<String, Double> a = new HashMap<>();
+        //-122.29980468 and -122.21191406 and between latitudes 37.82280243 and 37.89219554.
+        //video:-122.241632, -122.24053, w = 892.0, h = 875.0, ullat 37.87655, lrlat 37.87548
+        a.put("ullon", -122.241632);
+        a.put("lrlon", -122.24053);
+        a.put("w", 892.0);
+        a.put("h", 875.0);
+        a.put("ullat", 37.87655);
+        a.put("lrlat", 37.87548);
+        System.out.println("running before");
+        rasterer.processRequest(a, null);
+        System.out.println("after");
     }
 }
