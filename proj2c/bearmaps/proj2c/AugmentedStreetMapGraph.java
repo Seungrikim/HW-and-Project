@@ -19,7 +19,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
-        List<Node> nodes = this.getNodes();
+        //List<Node> nodes = this.getNodes();
     }
 
 
@@ -36,7 +36,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         ArrayList points = new ArrayList();
         WeirdPointSet wps;
         for(Node node : nodes) {
-            ///System.out.println(node.name());
             if (node.name() == null) {
                 Point point = new Point(node.lon(), node.lat());
                 map.put(point, node);
