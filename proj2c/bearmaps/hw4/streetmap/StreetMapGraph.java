@@ -116,7 +116,7 @@ public class StreetMapGraph implements AStarGraph<Long> {
     private void clean() {
         List<Long> toRemove = new ArrayList<>();
         for (long id : nodes.keySet()) {
-            if (neighbors(id).size() == 0) {
+            if (neighbors(id).size() == 0 && nodes.get(id).name() == null) {
                 toRemove.add(id);
             }
         }
@@ -215,8 +215,20 @@ public class StreetMapGraph implements AStarGraph<Long> {
         return nodes.get(v).lat();
     }
 
+    /**
+     * Gets the name of a vertex (if applicable).
+     * @param v The id of the vertex.
+     * @return The name of the vertex.
+     */
+    public String name(long v) {
+        if (!nodes.containsKey(v)) {
+            return null;
+        }
+        return nodes.get(v).name();
+    }
+
     protected List<Node> getNodes() {
-        List<Node> nodes = new LinkedList<>();
+        List<Node> nodes = new ArrayList<>();
         for(Map.Entry<Long, Node> nodeEntry: this.nodes.entrySet()){
             nodes.add(nodeEntry.getValue());
         }
