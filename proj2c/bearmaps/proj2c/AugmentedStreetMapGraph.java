@@ -15,11 +15,13 @@ import java.util.*;
  * @author Alan Yao, Josh Hug, ________
  */
 public class AugmentedStreetMapGraph extends StreetMapGraph {
+    private List<Node> nodes;
+    private WeirdPointSet wps;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
-        //List<Node> nodes = this.getNodes();
+        nodes = this.getNodes();
     }
 
 
@@ -31,10 +33,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * @return The id of the node in the graph closest to the target.
      */
     public long closest(double lon, double lat) {
-        List<Node> nodes = this.getNodes();
         HashMap<Point, Node> map = new HashMap<>();
         ArrayList points = new ArrayList();
-        WeirdPointSet wps;
         for(Node node : nodes) {
             if (node.name() == null) {
                 Point point = new Point(node.lon(), node.lat());

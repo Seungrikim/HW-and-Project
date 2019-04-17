@@ -104,9 +104,9 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
         System.out.println("londpp: " + londpp);
         System.out.println("latdpp: " + latdpp);
         System.out.println("starterX: " + ullonX);
-        System.out.println("endX: " + lrlonX);
+        System.out.println("endX: " + lrlonX);*/
         System.out.println("starterY: " + lrlatY);
-        System.out.println("endY: " + ullatY);*/
+        System.out.println("endY: " + ullatY);
 
         String[][] render_grid = new String[ullatY - lrlatY + 1][lrlonX - ullonX + 1];
         render_grid = gridMaker(render_grid, ullonX, lrlonX, lrlatY, ullatY, depth);
