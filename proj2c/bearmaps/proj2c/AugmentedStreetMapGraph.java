@@ -3,6 +3,7 @@ package bearmaps.proj2c;
 import bearmaps.hw4.streetmap.Node;
 import bearmaps.hw4.streetmap.StreetMapGraph;
 import bearmaps.proj2ab.Point;
+import bearmaps.proj2ab.WeirdPointSet;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
-        // List<Node> nodes = this.getNodes();
+        List<Node> nodes = this.getNodes();
     }
 
 
@@ -30,7 +31,20 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * @return The id of the node in the graph closest to the target.
      */
     public long closest(double lon, double lat) {
-        return 0;
+        List<Node> nodes = this.getNodes();
+        HashMap<Point, Node> map = new HashMap<>();
+        ArrayList points = new ArrayList();
+        WeirdPointSet wps;
+        for(Node node : nodes) {
+            ///System.out.println(node.name());
+            if (node.name() == null) {
+                Point point = new Point(node.lon(), node.lat());
+                map.put(point, node);
+                points.add(point);
+            }
+        }
+        wps = new WeirdPointSet(points);
+        return map.get(wps.nearest(lon, lat)).id();
     }
 
 

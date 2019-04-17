@@ -184,7 +184,7 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
 
     private Map<String, Object> hugeQuery() {
         Map<String, Object> results = new HashMap<>();
-        String[] grid = new String[]{"d0_x0_y0"};
+        String[] grid = new String[]{"d0_x0_y0.png"};
         results.put("render_grid", grid);
         results.put("raster_ul_lon", ROOT_ULLON);
         results.put("raster_ul_lat", ROOT_ULLAT);
