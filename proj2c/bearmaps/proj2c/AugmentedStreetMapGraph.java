@@ -60,8 +60,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         MyTrieSet trie = new MyTrieSet();
         HashMap<String, LinkedList<Node>> map = new HashMap<>();
         List list = new LinkedList();
-        List<String> trieList = new LinkedList();
-        LinkedList<Node> duplicate = new LinkedList();
+        //List<String> trieList = new LinkedList();
+        //LinkedList<Node> duplicate = new LinkedList();
 
         for(Node node : nodes) {
             if (node.name() != null) {
@@ -89,17 +89,12 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         /*if (prefix == " ") {
             return empty;
         }*/
-        trieList = trie.keysWithPrefix(prefix);
+        List<String> trieList = trie.keysWithPrefix(prefix);
         for (int i = 0; i < trieList.size(); i++) {
-            duplicate = map.get(trieList.get(i));
-            if (duplicate.size() > 1) {
-                while (!duplicate.isEmpty()) {
-                    ((LinkedList) list).addLast(duplicate.removeFirst());
-                }
-            } else {
-                ((LinkedList) list).addLast(duplicate);
+            LinkedList<Node> duplicate = map.get(trieList.get(i));
+            while (!duplicate.isEmpty()) {
+                ((LinkedList) list).addLast(duplicate.removeFirst());
             }
-
         }
         return list;
 
