@@ -59,13 +59,25 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public List<String> getLocationsByPrefix(String prefix) {
         MyTrieSet trie = new MyTrieSet();
         List list = new LinkedList();
-        HashMap map = new HashMap<>();
+        HashMap<String, LinkedList<Node>> map = new HashMap<>();
         List trieList = new LinkedList();
+        LinkedList<Node> duplicate = new LinkedList();
         for(Node node : nodes) {
             if (node.name() != null) {
-               String cleaned = cleanString(node.name());
-               map.put(cleaned, node.name());
-               trie.add(cleaned);
+                String cleaned = cleanString(node.name());
+                /*if (cleaned == "") {
+                    ((LinkedList) empty).addLast(node.name());
+                }*/
+                if (map.containsKey(cleaned)) {
+                    duplicate = map.get(cleaned);
+                    duplicate.addLast(node);
+                    map.replace(cleaned, duplicate);
+                    trie.add(cleaned);
+                } else {
+                    duplicate.addLast(node);
+                    map.put(cleaned, duplicate);
+                    trie.add(cleaned);
+                }
                /*if (map.containsKey(cleaned)) {
                    trie.add((String) map.get(cleaned));
                 } else {
@@ -74,11 +86,20 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                }*/
             }
         }
+        /*if (prefix == " ") {
+            return empty;
+        }*/
         trieList = trie.keysWithPrefix(prefix);
         for (int i = 0; i < trieList.size(); i++) {
-            ((LinkedList) list).addLast(map.get(trieList.get(i)));
-        }
+            if (map.get(trieList.get(i)).size() > 1) {
+                while (!map.get(trieList.get(i)).isEmpty()) {
+                    ((LinkedList) list).addLast(map.get(trieList.get(i)).removeFirst());
+                }
+            } else {
+                ((LinkedList) list).addLast(map.get(trieList.get(i)));
+            }
 
+        }
         return list;
 
     /*    if (name != null) {
