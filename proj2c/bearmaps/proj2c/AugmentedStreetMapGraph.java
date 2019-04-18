@@ -58,10 +58,11 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         MyTrieSet trie = new MyTrieSet();
-        List list = new LinkedList();
         HashMap<String, LinkedList<Node>> map = new HashMap<>();
-        List trieList = new LinkedList();
+        List list = new LinkedList();
+        List<String> trieList = new LinkedList();
         LinkedList<Node> duplicate = new LinkedList();
+
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
@@ -69,13 +70,12 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                     ((LinkedList) empty).addLast(node.name());
                 }*/
                 if (map.containsKey(cleaned)) {
-                    duplicate = map.get(cleaned);
-                    duplicate.addLast(node);
-                    map.replace(cleaned, duplicate);
+                    map.get(cleaned).addLast(node);
                     trie.add(cleaned);
                 } else {
-                    duplicate.addLast(node);
-                    map.put(cleaned, duplicate);
+                    LinkedList<Node> fullName = new LinkedList();
+                    fullName.addLast(node);
+                    map.put(cleaned, fullName);
                     trie.add(cleaned);
                 }
                /*if (map.containsKey(cleaned)) {
@@ -91,12 +91,13 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         }*/
         trieList = trie.keysWithPrefix(prefix);
         for (int i = 0; i < trieList.size(); i++) {
-            if (map.get(trieList.get(i)).size() > 1) {
-                while (!map.get(trieList.get(i)).isEmpty()) {
-                    ((LinkedList) list).addLast(map.get(trieList.get(i)).removeFirst());
+            duplicate = map.get(trieList.get(i));
+            if (duplicate.size() > 1) {
+                while (!duplicate.isEmpty()) {
+                    ((LinkedList) list).addLast(duplicate.removeFirst());
                 }
             } else {
-                ((LinkedList) list).addLast(map.get(trieList.get(i)));
+                ((LinkedList) list).addLast(duplicate);
             }
 
         }
