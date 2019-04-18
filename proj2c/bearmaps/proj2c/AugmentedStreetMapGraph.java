@@ -74,12 +74,12 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                }*/
             }
         }
-        /*trieList = trie.keysWithPrefix(prefix);
-        for (int i!trieList.isEmpty()) {
-            trieList.remove
-        }*/
+        trieList = trie.keysWithPrefix(prefix);
+        for (int i = 0; i < trieList.size(); i++) {
+            ((LinkedList) list).addLast(map.get(trieList.get(i)));
+        }
 
-        return trie.keysWithPrefix(cleanString(prefix));
+        return list;
 
     /*    if (name != null) {
             cleanname =;
