@@ -2,6 +2,7 @@ package bearmaps.proj2c;
 
 import bearmaps.hw4.streetmap.Node;
 import bearmaps.hw4.streetmap.StreetMapGraph;
+import bearmaps.lab9.MyTrieSet;
 import bearmaps.proj2ab.Point;
 import bearmaps.proj2ab.WeirdPointSet;
 
@@ -33,8 +34,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * @return The id of the node in the graph closest to the target.
      */
     public long closest(double lon, double lat) {
-        HashMap<Point, Node> map = new HashMap<>();
         ArrayList points = new ArrayList();
+        HashMap<Point, Node> map = new HashMap<>();
         for(Node node : nodes) {
             if (node.name() == null) {
                 Point point = new Point(node.lon(), node.lat());
@@ -56,7 +57,29 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * cleaned <code>prefix</code>.
      */
     public List<String> getLocationsByPrefix(String prefix) {
-        return new LinkedList<>();
+        MyTrieSet trie = new MyTrieSet();
+        ArrayList list = new ArrayList();
+        HashMap map = new HashMap<>();
+        for(Node node : nodes) {
+            if (node.name() != null) {
+               String cleaned = cleanString(node.name());
+               if (map.containsKey(cleaned)) {
+                   trie.add((String) map.get(cleaned));
+                } else {
+                   map.put(cleaned, node.name());
+                   trie.add((String) map.get(cleaned));
+               }
+            }
+        }
+
+        return trie.keysWithPrefix(prefix);
+
+    /*    if (name != null) {
+            cleanname =;
+            if map.contain(cleanname);
+            map.get.(cleanaem).add(N);
+
+        } else map.put(cleanname) and tried*/
     }
 
     /**
