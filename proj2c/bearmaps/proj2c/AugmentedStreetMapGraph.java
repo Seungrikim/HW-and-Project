@@ -58,21 +58,28 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         MyTrieSet trie = new MyTrieSet();
-        ArrayList list = new ArrayList();
+        List list = new LinkedList();
         HashMap map = new HashMap<>();
+        List trieList = new LinkedList();
         for(Node node : nodes) {
             if (node.name() != null) {
                String cleaned = cleanString(node.name());
-               if (map.containsKey(cleaned)) {
+               map.put(cleaned, node.name());
+               trie.add(cleaned);
+               /*if (map.containsKey(cleaned)) {
                    trie.add((String) map.get(cleaned));
                 } else {
                    map.put(cleaned, node.name());
                    trie.add((String) map.get(cleaned));
-               }
+               }*/
             }
         }
+        /*trieList = trie.keysWithPrefix(prefix);
+        for (int i!trieList.isEmpty()) {
+            trieList.remove
+        }*/
 
-        return trie.keysWithPrefix(prefix);
+        return trie.keysWithPrefix(cleanString(prefix));
 
     /*    if (name != null) {
             cleanname =;
