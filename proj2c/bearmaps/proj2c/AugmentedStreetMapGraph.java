@@ -93,7 +93,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         for (int i = 0; i < trieList.size(); i++) {
             LinkedList<Node> duplicate = map.get(trieList.get(i));
             while (!duplicate.isEmpty()) {
-                ((LinkedList) list).addLast(duplicate.removeFirst());
+                ((LinkedList) list).addLast(duplicate.removeFirst().name());
             }
         }
         return list;
