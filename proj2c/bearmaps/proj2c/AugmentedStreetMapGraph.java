@@ -18,8 +18,8 @@ import java.util.*;
 public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Node> nodes;
     private WeirdPointSet wps;
-    private MyTrieSet trie;
-    private HashMap<String, LinkedList<Node>> mapping;
+    private MyTrieSet trie = new MyTrieSet();
+    private HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
