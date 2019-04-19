@@ -18,21 +18,18 @@ import java.util.*;
 public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Node> nodes;
     private WeirdPointSet wps;
-    MyTrieSet trie;
-    HashMap<String, LinkedList<Node>> mapping;
+    private MyTrieSet trie;
+    private HashMap<String, LinkedList<Node>> mapping;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
         nodes = this.getNodes();
-        trie = new MyTrieSet();
-        mapping = new HashMap<>();
+        ///trie = new MyTrieSet();
+        //mapping = new HashMap<>();
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                /*if (cleaned == "") {
-                    ((LinkedList) empty).addLast(node.name());
-                }*/
                 if (mapping.containsKey(cleaned)) {
                     mapping.get(cleaned).addLast(node);
                     trie.add(cleaned);
