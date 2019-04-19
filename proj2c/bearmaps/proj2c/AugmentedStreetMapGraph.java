@@ -122,15 +122,17 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         List listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
         for (int i = 0; i < trieList.size(); i++) {
-            if (trieList.get(i).equals(cleanedLocation)) {
-                LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
-                for (int j = 0; j < duplicate.size(); j++) {
+            LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
+            //if (trieList.get(i) == cleanedLocation) {
+            for (int j = 0; j < duplicate.size(); j++) {
+                if (duplicate.get(j).name().equals(locationName)) {
                     ((LinkedList) listOfplace).addLast(formatter(duplicate.get(j)));
                 }
             }
         }
         return listOfplace;
     }
+
 
     private Map<String, Object> formatter (Node n) {
         Map<String, Object> newFormat = new HashMap<>();
