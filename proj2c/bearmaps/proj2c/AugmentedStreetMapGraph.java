@@ -107,12 +107,12 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         }
     }
 
-    private void nodePrint(List n) {
+    /*private void nodePrint(List n) {
         for(int i = 0; i < n.size(); i++) {
             Node temp = (Node) n.get(i);
             System.out.println(((Node) n.get(i)).name());
         }
-    }
+    }*/
 
 
     /**
@@ -133,14 +133,14 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         List listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
         if ("".equals(cleanedLocation)) {
-            for (int k = 0; k < str.size(); k++) {
-                ((LinkedList) listOfplace).addLast(formatter(str.get(k)));
+            for (Node temp : str) {
+                ((LinkedList) listOfplace).addLast(formatter(temp));
             }
             return listOfplace;
         }
-        for (int i = 0; i < trieList.size(); i++) {
-            if (trieList.get(i).equals(cleanedLocation)) {
-                LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
+        for (String pre : trieList) {
+            if (pre.equals(cleanedLocation)) {
+                LinkedList<Node> duplicate = prefixMap.get(pre);
                 for (int j = 0; j < duplicate.size(); j++) {
                     ((LinkedList) listOfplace).addLast(formatter(duplicate.get(j)));
                 }
