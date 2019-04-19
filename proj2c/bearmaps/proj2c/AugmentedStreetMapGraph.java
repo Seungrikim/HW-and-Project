@@ -20,7 +20,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private WeirdPointSet wps;
     private MyTrieSet labTrie;
     private HashMap<String, LinkedList<Node>> prefixMap;
-    private List<Node> str;
+    private List<Map<String, Object>> str;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -44,6 +44,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
         }*/
         prefixConstuctor();
+
+
     }
 
     /**
@@ -93,7 +95,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
                 if ("".equals(cleaned)) {
-                    str.add(node);
+                    str.add(formatter(node));
                 } else if (prefixMap.containsKey(cleaned)) {
                     prefixMap.get(cleaned).addLast(node);
                     labTrie.add(cleaned);
@@ -130,19 +132,17 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<Map<String, Object>> getLocations(String locationName) {
         String cleanedLocation = cleanString(locationName);
-        List listOfplace = new LinkedList();
+        LinkedList listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
         if ("".equals(cleanedLocation)) {
-            for (int k = 0; k < str.size(); k++) {
-                ((LinkedList) listOfplace).addLast(formatter(str.get(k)));
-            }
-            return listOfplace;
+            return str;
         }
         for (int i = 0; i < trieList.size(); i++) {
-            if (trieList.get(i).equals(cleanedLocation)) {
-                LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
+            String temp = trieList.get(i);
+            if (temp.equals(cleanedLocation)) {
+                LinkedList<Node> duplicate = prefixMap.get(temp);
                 for (int j = 0; j < duplicate.size(); j++) {
-                    ((LinkedList) listOfplace).addLast(formatter(duplicate.get(j)));
+                    listOfplace.addLast(formatter(duplicate.get(j)));
                 }
             }
         }
