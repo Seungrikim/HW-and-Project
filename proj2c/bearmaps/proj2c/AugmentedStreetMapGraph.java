@@ -103,9 +103,9 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         for (int i = 0; i < trieList.size(); i++) {
             LinkedList<Node> duplicate = mapping.get(trieList.get(i));
             for (int j = 0; j < duplicate.size(); j++) {
-                if (duplicate.get(i).name() == locationName) {
+                if (duplicate.get(j).name() == locationName) {
                     HashMap<String, Object> location = new HashMap<>();
-                    location.put(trieList.get(i), duplicate.get(i).name());
+                    location.put(trieList.get(i), duplicate.get(j).name());
                     ((LinkedList) listOfplace).addLast(location);
                 }
             }
