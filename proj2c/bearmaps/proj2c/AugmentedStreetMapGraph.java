@@ -30,14 +30,14 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                if (mapping.containsKey(cleaned)) {
-                    mapping.get(cleaned).addLast(node);
-                    trie.add(cleaned);
+                if (this.mapping.containsKey(cleaned)) {
+                    this.mapping.get(cleaned).addLast(node);
+                    this.trie.add(cleaned);
                 } else {
                     LinkedList<Node> fullName = new LinkedList();
                     fullName.addLast(node);
-                    mapping.put(cleaned, fullName);
-                    trie.add(cleaned);
+                    this.mapping.put(cleaned, fullName);
+                    this.trie.add(cleaned);
                 }
             }
         }
@@ -76,6 +76,14 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         List list = new LinkedList();
+        List<String> trieList = trie.keysWithPrefix(prefix);
+        for (int i = 0; i < trieList.size(); i++) {
+            LinkedList<Node> duplicate = mapping.get(trieList.get(i));
+            while (!duplicate.isEmpty()) {
+                ((LinkedList) list).addLast(duplicate.removeFirst().name());
+            }
+        }
+        return list;
         //List<String> trieList = new LinkedList();
         //LinkedList<Node> duplicate = new LinkedList();
         /*for(Node node : nodes) {
@@ -96,14 +104,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         /*if (prefix == " ") {
             return empty;
         }*/
-        List<String> trieList = trie.keysWithPrefix(prefix);
-        for (int i = 0; i < trieList.size(); i++) {
-            LinkedList<Node> duplicate = mapping.get(trieList.get(i));
-            while (!duplicate.isEmpty()) {
-                ((LinkedList) list).addLast(duplicate.removeFirst().name());
-            }
-        }
-        return list;
 
     /*    if (name != null) {
             cleanname =;
