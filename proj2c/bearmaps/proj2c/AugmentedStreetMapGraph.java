@@ -98,14 +98,15 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * "id" -> Number, The id of the node. <br>
      */
     public List<Map<String, Object>> getLocations(String locationName) {
+        String cleanedLocation = cleanString(locationName);
         List listOfplace = new LinkedList();
-        List<String> trieList = trie.keysWithPrefix(locationName);
+        List<String> trieList = trie.keysWithPrefix(cleanedLocation);
         for (int i = 0; i < trieList.size(); i++) {
-            LinkedList<Node> duplicate = mapping.get(trieList.get(i));
-            for (int j = 0; j < duplicate.size(); j++) {
-                if (duplicate.get(j).name() == locationName) {
+            if (trieList.get(i) == cleanedLocation) {
+                LinkedList<Node> duplicate = mapping.get(trieList.get(i));
+                for (int j = 0; j < duplicate.size(); j++) {
                     HashMap<String, Object> location = new HashMap<>();
-                    location.put(trieList.get(i), duplicate.get(j).name());
+                    location.put(duplicate.get(j).name(), duplicate.get(j));
                     ((LinkedList) listOfplace).addLast(location);
                 }
             }
