@@ -20,12 +20,12 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private WeirdPointSet wps;
     MyTrieSet trie = new MyTrieSet();
     HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
-    List list = new LinkedList();
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
         nodes = this.getNodes();
+        setTrie();
     }
 
 
@@ -61,18 +61,17 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         /*MyTrieSet trie = new MyTrieSet();
-        HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
-        List list = new LinkedList();*/
+        HashMap<String, LinkedList<Node>> mapping = new HashMap<>();*/
+        List list = new LinkedList();
         //List<String> trieList = new LinkedList();
         //LinkedList<Node> duplicate = new LinkedList();
-
-        for(Node node : nodes) {
+        /*for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
                 /*if (cleaned == "") {
                     ((LinkedList) empty).addLast(node.name());
                 }*/
-                if (mapping.containsKey(cleaned)) {
+                /*if (mapping.containsKey(cleaned)) {
                     mapping.get(cleaned).addLast(node);
                     trie.add(cleaned);
                 } else {
@@ -80,15 +79,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                     fullName.addLast(node);
                     mapping.put(cleaned, fullName);
                     trie.add(cleaned);
-                }
-               /*if (map.containsKey(cleaned)) {
-                   trie.add((String) map.get(cleaned));
-                } else {
-                   map.put(cleaned, node.name());
-                   trie.add((String) map.get(cleaned));
-               }*/
-            }
-        }
+                }*/
         /*if (prefix == " ") {
             return empty;
         }*/
@@ -108,6 +99,27 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
 
         } else map.put(cleanname) and tried*/
     }
+
+    private void setTrie () {
+        for(Node node : nodes) {
+            if (node.name() != null) {
+                String cleaned = cleanString(node.name());
+                /*if (cleaned == "") {
+                    ((LinkedList) empty).addLast(node.name());
+                }*/
+                if (mapping.containsKey(cleaned)) {
+                    mapping.get(cleaned).addLast(node);
+                    trie.add(cleaned);
+                } else {
+                    LinkedList<Node> fullName = new LinkedList();
+                    fullName.addLast(node);
+                    mapping.put(cleaned, fullName);
+                    trie.add(cleaned);
+                }
+            }
+        }
+    }
+
 
     /**
      * For Project Part III (gold points)
