@@ -134,29 +134,39 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
         if ("".equals(cleanedLocation)) {
             for (Node temp : str) {
-                ((LinkedList) listOfplace).addLast(formatter(temp));
+                Map<String, Object> newFormat = new HashMap<>();
+                newFormat.put("name", temp.name());
+                newFormat.put("lon", temp.lon());
+                newFormat.put("id", temp.id());
+                newFormat.put("lat", temp.lat());
+                ((LinkedList) listOfplace).addLast(newFormat);
             }
             return listOfplace;
         }
         for (String pre : trieList) {
             if (pre.equals(cleanedLocation)) {
                 LinkedList<Node> duplicate = prefixMap.get(pre);
-                for (int j = 0; j < duplicate.size(); j++) {
-                    ((LinkedList) listOfplace).addLast(formatter(duplicate.get(j)));
+                for (Node newNode : duplicate) {
+                    Map<String, Object> newFormat = new HashMap<>();
+                    newFormat.put("name", newNode.name());
+                    newFormat.put("lon", newNode.lon());
+                    newFormat.put("id", newNode.id());
+                    newFormat.put("lat", newNode.lat());
+                    ((LinkedList) listOfplace).addLast(newFormat);
                 }
             }
         }
         return listOfplace;
     }
 
-    private Map<String, Object> formatter (Node n) {
+    /*private Map<String, Object> formatter (Node n) {
         Map<String, Object> newFormat = new HashMap<>();
         newFormat.put("name",n.name());
         newFormat.put("lon", n.lon());
         newFormat.put("id", n.id());
         newFormat.put("lat", n.lat());
         return newFormat;
-    }
+    }*/
 
     /**
      * Useful for Part III. Do not modify.
