@@ -44,7 +44,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
         }*/
         prefixConstuctor();
-        nodePrint(str);
     }
 
     /**
