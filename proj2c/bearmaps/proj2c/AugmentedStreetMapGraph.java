@@ -20,6 +20,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private WeirdPointSet wps;
     private MyTrieSet labTrie;
     private HashMap<String, LinkedList<Node>> prefixMap;
+    private List<Node> str;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -27,6 +28,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         prefixMap = new HashMap<>();
         nodes = this.getNodes();
         labTrie = new MyTrieSet();
+        str = new LinkedList<>();
         /*for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
@@ -90,7 +92,9 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                if (prefixMap.containsKey(cleaned)) {
+                if (cleaned == "") {
+                    str.add(node);
+                } else if (prefixMap.containsKey(cleaned)) {
                     prefixMap.get(cleaned).addLast(node);
                     labTrie.add(cleaned);
                 } else {
@@ -121,18 +125,22 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         String cleanedLocation = cleanString(locationName);
         List listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
+        if (cleanedLocation == "") {
+            for (int k = 0; k < str.size(); k++) {
+                ((LinkedList) listOfplace).addLast(formatter(str.get(k)));
+            }
+            return listOfplace;
+        }
         for (int i = 0; i < trieList.size(); i++) {
-            LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
-            //if (trieList.get(i) == cleanedLocation) {
-            for (int j = 0; j < duplicate.size(); j++) {
-                if (duplicate.get(j).name().equals(locationName)) {
+            if (trieList.get(i).equals(cleanedLocation)) {
+                LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
+                for (int j = 0; j < duplicate.size(); j++) {
                     ((LinkedList) listOfplace).addLast(formatter(duplicate.get(j)));
                 }
             }
         }
         return listOfplace;
     }
-
 
     private Map<String, Object> formatter (Node n) {
         Map<String, Object> newFormat = new HashMap<>();
