@@ -18,14 +18,32 @@ import java.util.*;
 public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Node> nodes;
     private WeirdPointSet wps;
-    MyTrieSet trie = new MyTrieSet();
-    HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
+    MyTrieSet trie;
+    HashMap<String, LinkedList<Node>> mapping;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
         nodes = this.getNodes();
-        setTrie();
+        trie = new MyTrieSet();
+        mapping = new HashMap<>();
+        for(Node node : nodes) {
+            if (node.name() != null) {
+                String cleaned = cleanString(node.name());
+                /*if (cleaned == "") {
+                    ((LinkedList) empty).addLast(node.name());
+                }*/
+                if (mapping.containsKey(cleaned)) {
+                    mapping.get(cleaned).addLast(node);
+                    trie.add(cleaned);
+                } else {
+                    LinkedList<Node> fullName = new LinkedList();
+                    fullName.addLast(node);
+                    mapping.put(cleaned, fullName);
+                    trie.add(cleaned);
+                }
+            }
+        }
     }
 
 
@@ -60,8 +78,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * cleaned <code>prefix</code>.
      */
     public List<String> getLocationsByPrefix(String prefix) {
-        /*MyTrieSet trie = new MyTrieSet();
-        HashMap<String, LinkedList<Node>> mapping = new HashMap<>();*/
         List list = new LinkedList();
         //List<String> trieList = new LinkedList();
         //LinkedList<Node> duplicate = new LinkedList();
@@ -100,13 +116,10 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         } else map.put(cleanname) and tried*/
     }
 
-    private void setTrie () {
+    /*private void setTrie () {
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                /*if (cleaned == "") {
-                    ((LinkedList) empty).addLast(node.name());
-                }*/
                 if (mapping.containsKey(cleaned)) {
                     mapping.get(cleaned).addLast(node);
                     trie.add(cleaned);
@@ -118,7 +131,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                 }
             }
         }
-    }
+    }*/
 
 
     /**
