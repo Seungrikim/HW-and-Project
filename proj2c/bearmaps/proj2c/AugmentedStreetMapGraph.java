@@ -18,6 +18,9 @@ import java.util.*;
 public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Node> nodes;
     private WeirdPointSet wps;
+    MyTrieSet trie = new MyTrieSet();
+    HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
+    List list = new LinkedList();
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -58,7 +61,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         MyTrieSet trie = new MyTrieSet();
-        HashMap<String, LinkedList<Node>> map = new HashMap<>();
+        HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
         List list = new LinkedList();
         //List<String> trieList = new LinkedList();
         //LinkedList<Node> duplicate = new LinkedList();
@@ -69,13 +72,13 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                 /*if (cleaned == "") {
                     ((LinkedList) empty).addLast(node.name());
                 }*/
-                if (map.containsKey(cleaned)) {
-                    map.get(cleaned).addLast(node);
+                if (mapping.containsKey(cleaned)) {
+                    mapping.get(cleaned).addLast(node);
                     trie.add(cleaned);
                 } else {
                     LinkedList<Node> fullName = new LinkedList();
                     fullName.addLast(node);
-                    map.put(cleaned, fullName);
+                    mapping.put(cleaned, fullName);
                     trie.add(cleaned);
                 }
                /*if (map.containsKey(cleaned)) {
@@ -91,7 +94,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         }*/
         List<String> trieList = trie.keysWithPrefix(prefix);
         for (int i = 0; i < trieList.size(); i++) {
-            LinkedList<Node> duplicate = map.get(trieList.get(i));
+            LinkedList<Node> duplicate = mapping.get(trieList.get(i));
             while (!duplicate.isEmpty()) {
                 ((LinkedList) list).addLast(duplicate.removeFirst().name());
             }
