@@ -44,6 +44,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
         }*/
         prefixConstuctor();
+        nodePrint(str);
     }
 
     /**
@@ -92,7 +93,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                if (cleaned == "") {
+                if ("".equals(cleaned)) {
                     str.add(node);
                 } else if (prefixMap.containsKey(cleaned)) {
                     prefixMap.get(cleaned).addLast(node);
@@ -104,6 +105,13 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                     labTrie.add(cleaned);
                 }
             }
+        }
+    }
+
+    private void nodePrint(List n) {
+        for(int i = 0; i < n.size(); i++) {
+            Node temp = (Node) n.get(i);
+            System.out.println(((Node) n.get(i)).name());
         }
     }
 
@@ -125,7 +133,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         String cleanedLocation = cleanString(locationName);
         List listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
-        if (cleanedLocation == "") {
+        if ("".equals(cleanedLocation)) {
             for (int k = 0; k < str.size(); k++) {
                 ((LinkedList) listOfplace).addLast(formatter(str.get(k)));
             }
