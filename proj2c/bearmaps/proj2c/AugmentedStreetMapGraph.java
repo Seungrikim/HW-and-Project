@@ -132,16 +132,26 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<Map<String, Object>> getLocations(String locationName) {
         String cleanedLocation = cleanString(locationName);
-        LinkedList listOfplace = new LinkedList();
+        List listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
+
+        if (locationName == null) {
+            return listOfplace;
+        }
         if ("".equals(cleanedLocation)) {
             return str;
         }
         for (String word : trieList) {
-            if (word.equals(cleanedLocation)) {
+            if (word == cleanedLocation) {
                 LinkedList<Node> duplicate = prefixMap.get(word);
-                for (Node newNode : duplicate) {
-                    listOfplace.addLast(formatter(newNode));
+                if (duplicate.size() > 1) {
+                    for (Node newNode : duplicate) {
+                        listOfplace.add(formatter(newNode));
+                    }
+                    return listOfplace;
+                } else {
+                    listOfplace.add(formatter(duplicate.getFirst()));
+                    return listOfplace;
                 }
             }
         }
