@@ -137,12 +137,11 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         if ("".equals(cleanedLocation)) {
             return str;
         }
-        for (int i = 0; i < trieList.size(); i++) {
-            String temp = trieList.get(i);
-            if (temp.equals(cleanedLocation)) {
-                LinkedList<Node> duplicate = prefixMap.get(temp);
-                for (int j = 0; j < duplicate.size(); j++) {
-                    listOfplace.addLast(formatter(duplicate.get(j)));
+        for (String word : trieList) {
+            if (word.equals(cleanedLocation)) {
+                LinkedList<Node> duplicate = prefixMap.get(word);
+                for (Node newNode : duplicate) {
+                    listOfplace.addLast(formatter(newNode));
                 }
             }
         }
