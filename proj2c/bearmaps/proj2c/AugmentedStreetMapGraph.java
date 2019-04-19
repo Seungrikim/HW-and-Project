@@ -18,24 +18,26 @@ import java.util.*;
 public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Node> nodes;
     private WeirdPointSet wps;
-    private MyTrieSet trie = new MyTrieSet();
-    private HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
+    private MyTrieSet labTrie;
+    private HashMap<String, LinkedList<Node>> prefixMap;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
+        prefixMap = new HashMap<>();
         nodes = this.getNodes();
+        labTrie = new MyTrieSet();
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                if (mapping.containsKey(cleaned)) {
-                    mapping.get(cleaned).addLast(node);
-                    trie.add(cleaned);
+                if (prefixMap.containsKey(cleaned)) {
+                    prefixMap.get(cleaned).addLast(node);
+                    labTrie.add(cleaned);
                 } else {
                     LinkedList<Node> fullName = new LinkedList();
                     fullName.addLast(node);
-                    mapping.put(cleaned, fullName);
-                    trie.add(cleaned);
+                    prefixMap.put(cleaned, fullName);
+                    labTrie.add(cleaned);
                 }
             }
         }
@@ -73,9 +75,9 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         List list = new LinkedList();
-        List<String> trieList = trie.keysWithPrefix(prefix);
+        List<String> trieList = labTrie.keysWithPrefix(prefix);
         for (int i = 0; i < trieList.size(); i++) {
-            LinkedList<Node> duplicate = mapping.get(trieList.get(i));
+            LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
             for (int j = 0; j < duplicate.size(); j++) {
                 ((LinkedList) list).addLast(duplicate.get(j).name());
             }
@@ -100,10 +102,10 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public List<Map<String, Object>> getLocations(String locationName) {
         String cleanedLocation = cleanString(locationName);
         List listOfplace = new LinkedList();
-        List<String> trieList = trie.keysWithPrefix(cleanedLocation);
+        List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
         for (int i = 0; i < trieList.size(); i++) {
             if (trieList.get(i) == cleanedLocation) {
-                LinkedList<Node> duplicate = mapping.get(trieList.get(i));
+                LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
                 for (int j = 0; j < duplicate.size(); j++) {
                     HashMap<String, Object> location = new HashMap<>();
                     location.put(duplicate.get(j).name(), duplicate.get(j));
