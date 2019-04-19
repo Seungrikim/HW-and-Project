@@ -60,9 +60,9 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * cleaned <code>prefix</code>.
      */
     public List<String> getLocationsByPrefix(String prefix) {
-        MyTrieSet trie = new MyTrieSet();
+        /*MyTrieSet trie = new MyTrieSet();
         HashMap<String, LinkedList<Node>> mapping = new HashMap<>();
-        List list = new LinkedList();
+        List list = new LinkedList();*/
         //List<String> trieList = new LinkedList();
         //LinkedList<Node> duplicate = new LinkedList();
 
