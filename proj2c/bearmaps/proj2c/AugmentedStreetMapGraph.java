@@ -29,20 +29,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         nodes = this.getNodes();
         labTrie = new MyTrieSet();
         str = new LinkedList<>();
-        /*for(Node node : nodes) {
-            if (node.name() != null) {
-                String cleaned = cleanString(node.name());
-                if (prefixMap.containsKey(cleaned)) {
-                    prefixMap.get(cleaned).addLast(node);
-                    labTrie.add(cleaned);
-                } else {
-                    LinkedList<Node> fullName = new LinkedList();
-                    fullName.addLast(node);
-                    prefixMap.put(cleaned, fullName);
-                    labTrie.add(cleaned);
-                }
-            }
-        }*/
         prefixConstuctor();
     }
 
@@ -114,7 +100,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         }
     }*/
 
-
     /**
      * For Project Part III (gold points)
      * Collect all locations that match a cleaned <code>locationName</code>, and return
@@ -130,16 +115,14 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<Map<String, Object>> getLocations(String locationName) {
         String cleanedLocation = cleanString(locationName);
-        List listOfplace = new LinkedList();
+        LinkedList<Map<String, Object>> listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
+        if (locationName == null) {
+            return listOfplace;
+        }
         if ("".equals(cleanedLocation)) {
             for (Node temp : str) {
-                Map<String, Object> newFormat = new HashMap<>();
-                newFormat.put("name", temp.name());
-                newFormat.put("lon", temp.lon());
-                newFormat.put("id", temp.id());
-                newFormat.put("lat", temp.lat());
-                ((LinkedList) listOfplace).addLast(newFormat);
+                listOfplace.addLast(formatter(temp));
             }
             return listOfplace;
         }
@@ -147,26 +130,21 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             if (pre.equals(cleanedLocation)) {
                 LinkedList<Node> duplicate = prefixMap.get(pre);
                 for (Node newNode : duplicate) {
-                    Map<String, Object> newFormat = new HashMap<>();
-                    newFormat.put("name", newNode.name());
-                    newFormat.put("lon", newNode.lon());
-                    newFormat.put("id", newNode.id());
-                    newFormat.put("lat", newNode.lat());
-                    ((LinkedList) listOfplace).addLast(newFormat);
+                    listOfplace.addLast(formatter(newNode));
                 }
             }
         }
         return listOfplace;
     }
 
-    /*private Map<String, Object> formatter (Node n) {
+    private Map<String, Object> formatter (Node n) {
         Map<String, Object> newFormat = new HashMap<>();
-        newFormat.put("name",n.name());
+        newFormat.put("name", n.name());
         newFormat.put("lon", n.lon());
         newFormat.put("id", n.id());
         newFormat.put("lat", n.lat());
         return newFormat;
-    }*/
+    }
 
     /**
      * Useful for Part III. Do not modify.

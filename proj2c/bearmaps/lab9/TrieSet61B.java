@@ -2,6 +2,7 @@ package bearmaps.lab9;
 
 import java.util.List;
 
+//@Source from lab9
 public interface TrieSet61B {
 
     /** Clears all items out of Trie */
