@@ -25,24 +25,21 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
         nodes = this.getNodes();
-        ///trie = new MyTrieSet();
-        //mapping = new HashMap<>();
         for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
-                if (this.mapping.containsKey(cleaned)) {
-                    this.mapping.get(cleaned).addLast(node);
-                    this.trie.add(cleaned);
+                if (mapping.containsKey(cleaned)) {
+                    mapping.get(cleaned).addLast(node);
+                    trie.add(cleaned);
                 } else {
                     LinkedList<Node> fullName = new LinkedList();
                     fullName.addLast(node);
-                    this.mapping.put(cleaned, fullName);
-                    this.trie.add(cleaned);
+                    mapping.put(cleaned, fullName);
+                    trie.add(cleaned);
                 }
             }
         }
     }
-
 
     /**
      * For Project Part II
@@ -84,51 +81,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
         }
         return list;
-        //List<String> trieList = new LinkedList();
-        //LinkedList<Node> duplicate = new LinkedList();
-        /*for(Node node : nodes) {
-            if (node.name() != null) {
-                String cleaned = cleanString(node.name());
-                /*if (cleaned == "") {
-                    ((LinkedList) empty).addLast(node.name());
-                }*/
-                /*if (mapping.containsKey(cleaned)) {
-                    mapping.get(cleaned).addLast(node);
-                    trie.add(cleaned);
-                } else {
-                    LinkedList<Node> fullName = new LinkedList();
-                    fullName.addLast(node);
-                    mapping.put(cleaned, fullName);
-                    trie.add(cleaned);
-                }*/
-        /*if (prefix == " ") {
-            return empty;
-        }*/
-
-    /*    if (name != null) {
-            cleanname =;
-            if map.contain(cleanname);
-            map.get.(cleanaem).add(N);
-
-        } else map.put(cleanname) and tried*/
     }
-
-    /*private void setTrie () {
-        for(Node node : nodes) {
-            if (node.name() != null) {
-                String cleaned = cleanString(node.name());
-                if (mapping.containsKey(cleaned)) {
-                    mapping.get(cleaned).addLast(node);
-                    trie.add(cleaned);
-                } else {
-                    LinkedList<Node> fullName = new LinkedList();
-                    fullName.addLast(node);
-                    mapping.put(cleaned, fullName);
-                    trie.add(cleaned);
-                }
-            }
-        }
-    }*/
 
 
     /**
@@ -145,7 +98,19 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * "id" -> Number, The id of the node. <br>
      */
     public List<Map<String, Object>> getLocations(String locationName) {
-        return new LinkedList<>();
+        List listOfplace = new LinkedList();
+        List<String> trieList = trie.keysWithPrefix(locationName);
+        for (int i = 0; i < trieList.size(); i++) {
+            LinkedList<Node> duplicate = mapping.get(trieList.get(i));
+            for (int j = 0; j < duplicate.size(); j++) {
+                if (duplicate.get(i).name() == locationName) {
+                    HashMap<String, Object> location = new HashMap<>();
+                    location.put(trieList.get(i), duplicate.get(i).name());
+                    ((LinkedList) listOfplace).addLast(location);
+                }
+            }
+        }
+        return listOfplace;
     }
 
 
