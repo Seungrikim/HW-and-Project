@@ -27,7 +27,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         prefixMap = new HashMap<>();
         nodes = this.getNodes();
         labTrie = new MyTrieSet();
-        for(Node node : nodes) {
+        /*for(Node node : nodes) {
             if (node.name() != null) {
                 String cleaned = cleanString(node.name());
                 if (prefixMap.containsKey(cleaned)) {
@@ -40,7 +40,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                     labTrie.add(cleaned);
                 }
             }
-        }
+        }*/
+        prefixConstuctor();
     }
 
     /**
@@ -85,6 +86,23 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         return list;
     }
 
+    private void prefixConstuctor() {
+        for(Node node : nodes) {
+            if (node.name() != null) {
+                String cleaned = cleanString(node.name());
+                if (prefixMap.containsKey(cleaned)) {
+                    prefixMap.get(cleaned).addLast(node);
+                    labTrie.add(cleaned);
+                } else {
+                    LinkedList<Node> fullName = new LinkedList();
+                    fullName.addLast(node);
+                    prefixMap.put(cleaned, fullName);
+                    labTrie.add(cleaned);
+                }
+            }
+        }
+    }
+
 
     /**
      * For Project Part III (gold points)
@@ -104,18 +122,24 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         List listOfplace = new LinkedList();
         List<String> trieList = labTrie.keysWithPrefix(cleanedLocation);
         for (int i = 0; i < trieList.size(); i++) {
-            if (trieList.get(i) == cleanedLocation) {
+            if (trieList.get(i).equals(cleanedLocation)) {
                 LinkedList<Node> duplicate = prefixMap.get(trieList.get(i));
                 for (int j = 0; j < duplicate.size(); j++) {
-                    HashMap<String, Object> location = new HashMap<>();
-                    location.put(duplicate.get(j).name(), duplicate.get(j));
-                    ((LinkedList) listOfplace).addLast(location);
+                    ((LinkedList) listOfplace).addLast(formatter(duplicate.get(j)));
                 }
             }
         }
         return listOfplace;
     }
 
+    private Map<String, Object> formatter (Node n) {
+        Map<String, Object> newFormat = new HashMap<>();
+        newFormat.put("name",n.name());
+        newFormat.put("lon", n.lon());
+        newFormat.put("id", n.id());
+        newFormat.put("lat", n.lat());
+        return newFormat;
+    }
 
     /**
      * Useful for Part III. Do not modify.
