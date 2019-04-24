@@ -3,11 +3,9 @@ package byow.Core;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public class Rectangle {
@@ -26,10 +24,10 @@ public class Rectangle {
         this.RANDOM = new Random(SEED);
         this.TABLE = table;
         TERenderer ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
+        //ter.initialize(WIDTH, HEIGHT);
         fillNothing(TABLE);
         generatWorld(TABLE);
-        ter.renderFrame(TABLE);
+        //ter.renderFrame(TABLE);
     }
 
     public void fillNothing(TETile[][] tile) {
