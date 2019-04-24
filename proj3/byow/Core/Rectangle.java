@@ -41,7 +41,7 @@ public class Rectangle {
     public void generatWorld(TETile[][] tile) {
         int count = 0;
         for (int i = 0; i < WIDTH - 8; i+= 3){
-            int numberOfrectangle = RANDOM.nextInt(3);
+            int numberOfrectangle = RANDOM.nextInt(2);
             for (int j = 0; j < numberOfrectangle; j++) {
                 int y = RANDOM.nextInt(HEIGHT - 8);
                 int yEnd = y + 2 + RANDOM.nextInt(6);
