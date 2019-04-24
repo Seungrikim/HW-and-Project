@@ -45,8 +45,14 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-
-        TETile[][] finalWorldFrame = null;
+        String seed = "";
+        for (int i = 1; i < input.length() - 1; i++) {
+            seed += input.charAt(i);
+        }
+        long num = Long.parseLong(seed);
+        TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
+        Rectangle world = new Rectangle();
+        world.Rectangle(finalWorldFrame, WIDTH, HEIGHT, num);
         return finalWorldFrame;
     }
 }
