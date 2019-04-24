@@ -17,7 +17,7 @@ public class Rectangle {
     private HashMap<Point, Room> roomContainer = new HashMap<>();
     private LinkedList<Room> treeList = new LinkedList<>();
 
-    public void Rectangle(TETile[][] table, int width, int height, long seed) {
+    public Rectangle(TETile[][] table, int width, int height, long seed) {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.SEED = seed;
@@ -40,7 +40,7 @@ public class Rectangle {
 
     public void generatWorld(TETile[][] tile) {
         int count = 0;
-        for (int i = 0; i < WIDTH - 8; i+= 3){
+        for (int i = 0; i < WIDTH - 8; i += 3) {
             int numberOfrectangle = RANDOM.nextInt(2);
             for (int j = 0; j < numberOfrectangle; j++) {
                 int y = RANDOM.nextInt(HEIGHT - 8);
@@ -62,7 +62,7 @@ public class Rectangle {
     }
 
     private void generateRoom(TETile[][] tile, int xStart, int yStart, int xEnd, int yEnd) {
-        for (int i = yStart ; i <= yEnd; i++) {
+        for (int i = yStart; i <= yEnd; i++) {
             for (int j = xStart; j <= xEnd; j++) {
                 if (i == yStart || i == yEnd || j == xStart || j == xEnd) {
                     tile[j][i] = Tileset.WALL;
@@ -74,8 +74,8 @@ public class Rectangle {
     }
 
     private boolean boundary(TETile[][] tile, int xStart, int yStart, int xEnd, int yEnd) {
-        return (tile[xStart][yStart] == Tileset.NOTHING && tile[xEnd][yEnd] == Tileset.NOTHING &&
-                tile[xEnd][yStart] == Tileset.NOTHING && tile[xStart][yEnd] == Tileset.NOTHING);
+        return (tile[xStart][yStart] == Tileset.NOTHING && tile[xEnd][yEnd] == Tileset.NOTHING
+                && tile[xEnd][yStart] == Tileset.NOTHING && tile[xStart][yEnd] == Tileset.NOTHING);
     }
 
     private void hallwayMaker(TETile[][] tile, Room r1, Room r2) {
@@ -93,7 +93,8 @@ public class Rectangle {
                 tile[r1.center().x][y] = Tileset.FLOOR;
                 if (tile[r1.center().x + 1][y] == Tileset.NOTHING) {
                     tile[r1.center().x + 1][y] = Tileset.WALL;
-                } if (tile[r1.center().x - 1][y] == Tileset.NOTHING) {
+                }
+                if (tile[r1.center().x - 1][y] == Tileset.NOTHING) {
                     tile[r1.center().x - 1][y] = Tileset.WALL;
                 }
                 y -= 1;
@@ -103,7 +104,8 @@ public class Rectangle {
                 tile[x][y] = Tileset.FLOOR;
                 if (tile[x][y + 1] == Tileset.NOTHING) {
                     tile[x][y + 1] = Tileset.WALL;
-                } if (tile[x][y - 1] == Tileset.NOTHING) {
+                }
+                if (tile[x][y - 1] == Tileset.NOTHING) {
                     tile[x][y - 1] = Tileset.WALL;
                 }
                 x += 1;
@@ -113,7 +115,8 @@ public class Rectangle {
                 tile[r1.center().x][y] = Tileset.FLOOR;
                 if (tile[r1.center().x + 1][y] == Tileset.NOTHING) {
                     tile[r1.center().x + 1][y] = Tileset.WALL;
-                } if (tile[r1.center().x - 1][y] == Tileset.NOTHING) {
+                }
+                if (tile[r1.center().x - 1][y] == Tileset.NOTHING) {
                     tile[r1.center().x - 1][y] = Tileset.WALL;
                 }
 
@@ -124,7 +127,8 @@ public class Rectangle {
                 tile[x][y] = Tileset.FLOOR;
                 if (tile[x][y + 1] == Tileset.NOTHING) {
                     tile[x][y + 1] = Tileset.WALL;
-                } if (tile[x][y - 1] == Tileset.NOTHING) {
+                }
+                if (tile[x][y - 1] == Tileset.NOTHING) {
                     tile[x][y - 1] = Tileset.WALL;
                 }
                 x += 1;
@@ -138,12 +142,12 @@ public class Rectangle {
         private int w;
         private int h;
 
-        public Room(Point p, int w, int h) {
+        private Room(Point p, int w, int h) {
             this.w = w;
             this.h = h;
             this.p = p;
         }
-        public Point center() {
+        private Point center() {
             Point centerPoint = new Point(p.x + w / 2, p.y + h / 2);
             return centerPoint;
         }
@@ -152,7 +156,7 @@ public class Rectangle {
     private class Point {
         private int x;
         private int y;
-        public Point(int x, int y) {
+        private Point(int x, int y) {
             this.x = x;
             this.y = y;
         }
