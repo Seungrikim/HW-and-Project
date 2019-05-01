@@ -356,7 +356,7 @@ public class World {
     }
 
     private static void saveFile(String s) {
-        File file = new File("./save_data");
+        File file = new File("./save_data.txt");
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -374,7 +374,7 @@ public class World {
     }
 
     private static String loadFile() {
-        File f = new File("./save_data");
+        File f = new File("./save_data.txt");
         if (f.exists()) {
             try {
                 FileInputStream fs = new FileInputStream(f);
