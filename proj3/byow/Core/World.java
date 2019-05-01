@@ -304,7 +304,7 @@ public class World {
         //System.out.println("moveLoad");
         for (int i = 0; i < user.length(); i++) {
             //System.out.println("moveLoad for loop");
-            StdDraw.pause(500);
+            //StdDraw.pause(500);
             switch (user.charAt(i)) {
                 case 'w':
                     //System.out.println("up");

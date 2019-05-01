@@ -62,30 +62,8 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-        String movement = "";
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
         World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
-        //int index = 0;
-        /*if (input.charAt(0) == 'N') {
-            while (input.charAt(index) != 'S') {
-                index += 1;
-            }
-            index += 1;
-            for (int i = index; i < input.length(); i++) {
-                movement = movement + input.charAt(i);
-            }
-            input = input.substring(1,index - 1);
-            //long num = Long.parseLong(seed);
-            //interactWithKeyboard();
-            World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
-            System.out.println(movement);
-            if (!movement.equals(null)) {
-                world.moveLoad(movement);
-            }
-        } else if (input.charAt(0) == 'L') {
-            input = input.substring(1, input.length());
-
-        }*/
         return finalWorldFrame;
     }
 }
