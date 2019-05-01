@@ -16,7 +16,7 @@ public class GUI {
     private TETile[][] finalWorldFrame;
     private Point avatar;
 
-    public GUI(int width, int height, TERenderer ter) {
+    public GUI(int width, int height) {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.ter = ter;

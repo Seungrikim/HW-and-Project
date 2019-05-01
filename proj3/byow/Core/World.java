@@ -27,7 +27,7 @@ public class World {
     private HashMap<Integer, Room> roomContainer = new HashMap<>();
     private LinkedList<Room> treeList = new LinkedList<>();
 
-    public World(TETile[][] table, int width, int height, String seed, TERenderer ter) {
+    public World(TETile[][] table, int width, int height, String seed) {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.TABLE = table;

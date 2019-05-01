@@ -4,7 +4,7 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 
 public class Engine {
-    TERenderer ter = new TERenderer();
+    //TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
@@ -15,7 +15,7 @@ public class Engine {
      */
     public void interactWithKeyboard() {
         boolean userTurn = true;
-        GUI gui = new GUI(WIDTH, HEIGHT, ter);
+        GUI gui = new GUI(WIDTH, HEIGHT);
         /*while (userTurn) {
             gui.move();
         }*/
@@ -27,7 +27,7 @@ public class Engine {
         }
         long num = Long.parseLong(seed);*/
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-        World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
+        World world = new World(finalWorldFrame, WIDTH, HEIGHT, input);
         while (userTurn == true) {
             userTurn = world.move(userTurn);
         }
@@ -63,7 +63,7 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-        World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
+        World world = new World(finalWorldFrame, WIDTH, HEIGHT, input);
         return finalWorldFrame;
     }
 }
