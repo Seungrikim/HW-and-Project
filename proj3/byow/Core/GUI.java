@@ -4,10 +4,11 @@ import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Color;
 
 public class GUI {
     private int WIDTH;
@@ -41,7 +42,7 @@ public class GUI {
         if (userInput.possibleNextInput()) {
             input = userInput.getNextKey();
         }
-        switch(input) {
+        switch (input) {
             case 'N':
                 basicGui();
                 System.out.println("switch");

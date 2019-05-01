@@ -2,12 +2,16 @@ package byow.Core;
 
 import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;
-import byow.SaveDemo.Editor;
-import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,7 +23,7 @@ public class World {
     private long SEED;
     private Random RANDOM;
     private String save;
-    public Point avatar;
+    private Point avatar;
     private String beforeLoad = "";
     private String afterLoad = "";
     //private TERenderer ter = new TERenderer();
@@ -58,8 +62,8 @@ public class World {
             while (input.charAt(index) != 's') {
                 index += 1;
             }
-            save = input.substring(0,index) + 's';
-            seed = input.substring(1,index);
+            save = input.substring(0, index) + 's';
+            seed = input.substring(1, index);
             SEED = Long.parseLong(seed);
             //System.out.println(SEED);
             //System.out.println(save);
@@ -75,7 +79,7 @@ public class World {
                 index += 1;
             }
             save = load.substring(0, index) + 's';
-            seed = load.substring(1,index);
+            seed = load.substring(1, index);
             SEED = Long.parseLong(seed);
             //System.out.println(SEED);
             //System.out.println(save);
@@ -136,8 +140,10 @@ public class World {
         if (!(xEnd < WIDTH && yEnd < HEIGHT)) {
             return false;
         }
-        return (tile[xStart][yStart].equals(Tileset.NOTHING) && tile[xEnd][yEnd].equals(Tileset.NOTHING)
-                && tile[xEnd][yStart].equals(Tileset.NOTHING) && tile[xStart][yEnd].equals(Tileset.NOTHING)
+        return (tile[xStart][yStart].equals(Tileset.NOTHING)
+                && tile[xEnd][yEnd].equals(Tileset.NOTHING)
+                && tile[xEnd][yStart].equals(Tileset.NOTHING)
+                && tile[xStart][yEnd].equals(Tileset.NOTHING)
                 && tile[(xStart + xEnd) / 2][yEnd].equals(Tileset.NOTHING)
                 && tile[(xStart + xEnd) / 2][yStart].equals(Tileset.NOTHING)
                 && tile[xEnd][(yStart + yEnd) / 2].equals(Tileset.NOTHING)
@@ -173,7 +179,7 @@ public class World {
                 if (y + 1 <= HEIGHT && TABLE[x][y + 1].equals(Tileset.NOTHING)) {
                     TABLE[x][y + 1] = Tileset.WALL;
                 }
-                if ( y - 1 >= 0 && TABLE[x][y - 1].equals(Tileset.NOTHING)) {
+                if (y - 1 >= 0 && TABLE[x][y - 1].equals(Tileset.NOTHING)) {
                     TABLE[x][y - 1] = Tileset.WALL;
                 }
                 x += 1;
@@ -235,16 +241,20 @@ public class World {
         int direction = RANDOM.nextInt(4);
         switch (direction) {
             case 0:
-                TABLE[newRoom.center().x + 1 - (newRoom.w + 1) / 2][newRoom.center().y] = Tileset.LOCKED_DOOR;
+                TABLE[newRoom.center().x + 1 - (newRoom.w + 1) / 2][newRoom.center().y]
+                        = Tileset.LOCKED_DOOR;
                 break;
             case 1:
-                TABLE[newRoom.center().x + (newRoom.w + 1) / 2][newRoom.center().y] = Tileset.LOCKED_DOOR;
+                TABLE[newRoom.center().x + (newRoom.w + 1) / 2][newRoom.center().y]
+                        = Tileset.LOCKED_DOOR;
                 break;
             case 2:
-                TABLE[newRoom.center().x][newRoom.center().y - (newRoom.h + 1) / 2] = Tileset.LOCKED_DOOR;
+                TABLE[newRoom.center().x][newRoom.center().y - (newRoom.h + 1) / 2]
+                        = Tileset.LOCKED_DOOR;
                 break;
             case 3:
-                TABLE[newRoom.center().x][newRoom.center().y + (newRoom.h + 1)/ 2] = Tileset.LOCKED_DOOR;
+                TABLE[newRoom.center().x][newRoom.center().y + (newRoom.h + 1) / 2]
+                        = Tileset.LOCKED_DOOR;
                 break;
             default:
                 break;
@@ -259,28 +269,28 @@ public class World {
         }
         switch (input) {
             case 'W':
-                System.out.println("up");
+                //System.out.println("up");
                 Point up = new Point(avatar.x, avatar.y + 1);
                 movingAvatar(up);
                 //ter.renderFrame(TABLE);
                 save += "W";
                 return true;
             case 'S':
-                System.out.println("down");
+                //System.out.println("down");
                 Point down = new Point(avatar.x, avatar.y - 1);
                 movingAvatar(down);
                 //ter.renderFrame(TABLE);
                 save += "S";
                 return true;
             case 'A':
-                System.out.println("left");
+                //System.out.println("left");
                 Point left = new Point(avatar.x - 1, avatar.y);
                 movingAvatar(left);
                 //ter.renderFrame(TABLE);
                 save += "A";
                 return true;
             case 'D':
-                System.out.println("right");
+                //System.out.println("right");
                 Point right = new Point(avatar.x + 1, avatar.y);
                 movingAvatar(right);
                 //ter.renderFrame(TABLE);
@@ -289,11 +299,11 @@ public class World {
             case 'Q':
                 System.out.println(save);
                 saveFile(save);
-                System.out.println("quit");
+                //System.out.println("quit");
                 System.exit(0);
                 return false;
             default:
-                System.out.println("default");
+                //System.out.println("default");
         }
         return true;
     }
@@ -340,7 +350,7 @@ public class World {
                     //System.exit(0);
                     break;
                 default:
-                    System.out.println("default");
+                    //System.out.println("default");
             }
         }
     }

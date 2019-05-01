@@ -4,7 +4,7 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 
 public class Engine {
-    //TERenderer ter = new TERenderer();
+    TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
@@ -28,7 +28,7 @@ public class Engine {
         long num = Long.parseLong(seed);*/
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
         World world = new World(finalWorldFrame, WIDTH, HEIGHT, input);
-        while (userTurn == true) {
+        while (userTurn) {
             userTurn = world.move(userTurn);
         }
     }
