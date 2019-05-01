@@ -22,7 +22,7 @@ public class World {
     public Point avatar;
     private String beforeLoad = "";
     private String afterLoad = "";
-    private TERenderer ter = new TERenderer();
+    //private TERenderer ter = new TERenderer();
     private TETile[][] TABLE;
     private HashMap<Integer, Room> roomContainer = new HashMap<>();
     private LinkedList<Room> treeList = new LinkedList<>();
@@ -31,12 +31,12 @@ public class World {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.TABLE = table;
-        this.ter = ter;
+        //this.ter = ter;
         makeSeed(seed.toLowerCase());
         this.RANDOM = new Random(SEED);
         //this.SEED = makeSeed(seed);
         //this.save = makeSave(seed);
-        ter.initialize(WIDTH, HEIGHT);
+        //ter.initialize(WIDTH, HEIGHT);
         fillNothing();
         generatWorld();
         generateAvatar();
@@ -47,7 +47,7 @@ public class World {
         if (!afterLoad.equals("")) {
             moveLoad(afterLoad);
         }
-        ter.renderFrame(TABLE);
+        //ter.renderFrame(TABLE);
     }
 
     private void makeSeed(String input) {
@@ -262,28 +262,28 @@ public class World {
                 System.out.println("up");
                 Point up = new Point(avatar.x, avatar.y + 1);
                 movingAvatar(up);
-                ter.renderFrame(TABLE);
+                //ter.renderFrame(TABLE);
                 save += "W";
                 return true;
             case 'S':
                 System.out.println("down");
                 Point down = new Point(avatar.x, avatar.y - 1);
                 movingAvatar(down);
-                ter.renderFrame(TABLE);
+                //ter.renderFrame(TABLE);
                 save += "S";
                 return true;
             case 'A':
                 System.out.println("left");
                 Point left = new Point(avatar.x - 1, avatar.y);
                 movingAvatar(left);
-                ter.renderFrame(TABLE);
+                //ter.renderFrame(TABLE);
                 save += "A";
                 return true;
             case 'D':
                 System.out.println("right");
                 Point right = new Point(avatar.x + 1, avatar.y);
                 movingAvatar(right);
-                ter.renderFrame(TABLE);
+                //ter.renderFrame(TABLE);
                 save += "D";
                 return true;
             case 'Q':
@@ -309,28 +309,28 @@ public class World {
                     //System.out.println("up");
                     Point up = new Point(avatar.x, avatar.y + 1);
                     movingAvatar(up);
-                    ter.renderFrame(TABLE);
+                    //ter.renderFrame(TABLE);
                     save += "w";
                     break;
                 case 's':
                     //System.out.println("down");
                     Point down = new Point(avatar.x, avatar.y - 1);
                     movingAvatar(down);
-                    ter.renderFrame(TABLE);
+                    //ter.renderFrame(TABLE);
                     save += "s";
                     break;
                 case 'a':
                     //System.out.println("left");
                     Point left = new Point(avatar.x - 1, avatar.y);
                     movingAvatar(left);
-                    ter.renderFrame(TABLE);
+                    //ter.renderFrame(TABLE);
                     save += "a";
                     break;
                 case 'd':
                     //System.out.println("right");
                     Point right = new Point(avatar.x + 1, avatar.y);
                     movingAvatar(right);
-                    ter.renderFrame(TABLE);
+                    //ter.renderFrame(TABLE);
                     save += "d";
                     break;
                 case ':':
