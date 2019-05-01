@@ -14,6 +14,23 @@ public class Engine {
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
+        boolean userTurn = true;
+        GUI gui = new GUI(WIDTH, HEIGHT, ter);
+        /*while (userTurn) {
+            gui.move();
+        }*/
+        gui.menu();
+        String input = gui.input();
+        /*String seed = "";
+        for (int i = 1; i < input.length() - 1; i++) {
+            seed += input.charAt(i);
+        }
+        long num = Long.parseLong(seed);*/
+        TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
+        World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
+        while (userTurn == true) {
+            userTurn = world.move(userTurn);
+        }
     }
 
     /**
@@ -45,13 +62,30 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-        String seed = "";
-        for (int i = 1; i < input.length() - 1; i++) {
-            seed += input.charAt(i);
-        }
-        long num = Long.parseLong(seed);
+        String movement = "";
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-        Rectangle world = new Rectangle(finalWorldFrame, WIDTH, HEIGHT, num);
+        World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
+        //int index = 0;
+        /*if (input.charAt(0) == 'N') {
+            while (input.charAt(index) != 'S') {
+                index += 1;
+            }
+            index += 1;
+            for (int i = index; i < input.length(); i++) {
+                movement = movement + input.charAt(i);
+            }
+            input = input.substring(1,index - 1);
+            //long num = Long.parseLong(seed);
+            //interactWithKeyboard();
+            World world = new World(finalWorldFrame, WIDTH, HEIGHT, input, ter);
+            System.out.println(movement);
+            if (!movement.equals(null)) {
+                world.moveLoad(movement);
+            }
+        } else if (input.charAt(0) == 'L') {
+            input = input.substring(1, input.length());
+
+        }*/
         return finalWorldFrame;
     }
 }
