@@ -6,7 +6,6 @@ import byow.SaveDemo.Editor;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-import edu.princeton.cs.introcs.StdDraw;
 
 import java.io.*;
 import java.io.File;
@@ -338,7 +337,7 @@ public class World {
                     //System.out.println(save);
                     saveFile(save);
                     //System.out.println("quit");
-                    System.exit(0);
+                    //System.exit(0);
                     break;
                 default:
                     System.out.println("default");
