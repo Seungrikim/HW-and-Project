@@ -33,7 +33,7 @@ public class World {
         this.HEIGHT = height;
         this.TABLE = table;
         this.ter = ter;
-        makeSeed(seed);
+        makeSeed(seed.toLowerCase());
         this.RANDOM = new Random(SEED);
         //this.SEED = makeSeed(seed);
         //this.save = makeSave(seed);
@@ -55,11 +55,11 @@ public class World {
         String seed = "";
         String load = "";
         int index = 0;
-        if (input.charAt(0) == 'N') {
-            while (input.charAt(index) != 'S') {
+        if (input.charAt(0) == 'n') {
+            while (input.charAt(index) != 's') {
                 index += 1;
             }
-            save = input.substring(0,index) + 'S';
+            save = input.substring(0,index) + 's';
             seed = input.substring(1,index);
             SEED = Long.parseLong(seed);
             //System.out.println(SEED);
@@ -72,10 +72,10 @@ public class World {
             beforeLoad = seed;
         } else {
             load = loadFile();
-            while (load.charAt(index) != 'S') {
+            while (load.charAt(index) != 's') {
                 index += 1;
             }
-            save = load.substring(0, index) + 'S';
+            save = load.substring(0, index) + 's';
             seed = load.substring(1,index);
             SEED = Long.parseLong(seed);
             //System.out.println(SEED);
@@ -306,33 +306,33 @@ public class World {
             //System.out.println("moveLoad for loop");
             StdDraw.pause(500);
             switch (user.charAt(i)) {
-                case 'W':
+                case 'w':
                     //System.out.println("up");
                     Point up = new Point(avatar.x, avatar.y + 1);
                     movingAvatar(up);
                     ter.renderFrame(TABLE);
-                    save += "W";
+                    save += "w";
                     break;
-                case 'S':
+                case 's':
                     //System.out.println("down");
                     Point down = new Point(avatar.x, avatar.y - 1);
                     movingAvatar(down);
                     ter.renderFrame(TABLE);
-                    save += "S";
+                    save += "s";
                     break;
-                case 'A':
+                case 'a':
                     //System.out.println("left");
                     Point left = new Point(avatar.x - 1, avatar.y);
                     movingAvatar(left);
                     ter.renderFrame(TABLE);
-                    save += "A";
+                    save += "a";
                     break;
-                case 'D':
+                case 'd':
                     //System.out.println("right");
                     Point right = new Point(avatar.x + 1, avatar.y);
                     movingAvatar(right);
                     ter.renderFrame(TABLE);
-                    save += "D";
+                    save += "d";
                     break;
                 case ':':
                     //System.out.println(save);
