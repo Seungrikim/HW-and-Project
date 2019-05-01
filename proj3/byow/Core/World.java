@@ -22,7 +22,7 @@ public class World {
     public Point avatar;
     private String beforeLoad = "";
     private String afterLoad = "";
-    private TERenderer ter;
+    private TERenderer ter = new TERenderer();
     private TETile[][] TABLE;
     private HashMap<Integer, Room> roomContainer = new HashMap<>();
     private LinkedList<Room> treeList = new LinkedList<>();
