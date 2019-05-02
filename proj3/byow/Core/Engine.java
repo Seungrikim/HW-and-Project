@@ -2,6 +2,7 @@ package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import edu.princeton.cs.introcs.StdDraw;
 
 public class Engine {
     TERenderer ter = new TERenderer();
@@ -16,20 +17,16 @@ public class Engine {
     public void interactWithKeyboard() {
         boolean userTurn = true;
         GUI gui = new GUI(WIDTH, HEIGHT);
-        /*while (userTurn) {
-            gui.move();
-        }*/
         gui.menu();
         String input = gui.input();
-        /*String seed = "";
-        for (int i = 1; i < input.length() - 1; i++) {
-            seed += input.charAt(i);
-        }
-        long num = Long.parseLong(seed);*/
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
         World world = new World(finalWorldFrame, WIDTH, HEIGHT, input);
+        StdDraw.enableDoubleBuffering();
+        ter.initialize(WIDTH, HEIGHT, 0, 0);
+        world.replay();
+        ter.renderFrame(world.table());
         while (userTurn) {
-            userTurn = world.move(userTurn);
+            ter.renderFrame(world.move());
         }
     }
 
@@ -64,6 +61,7 @@ public class Engine {
         // that works for many different input types.
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
         World world = new World(finalWorldFrame, WIDTH, HEIGHT, input);
+        world.load();
         return finalWorldFrame;
     }
 }

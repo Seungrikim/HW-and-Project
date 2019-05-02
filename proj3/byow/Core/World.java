@@ -1,21 +1,24 @@
 package byow.Core;
 
-import byow.InputDemo.InputSource;
-import byow.InputDemo.KeyboardInputSource;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
+import byow.TileEngine.TERenderer;
 
+import edu.princeton.cs.introcs.StdDraw;
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-
 import java.io.File;
+import java.text.SimpleDateFormat;
+
+import java.util.Random;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Random;
+import java.util.Calendar;
 
 public class World {
     private int WIDTH;
@@ -26,8 +29,8 @@ public class World {
     private Point avatar;
     private String beforeLoad = "";
     private String afterLoad = "";
-    //private TERenderer ter = new TERenderer();
-    private TETile[][] TABLE;
+    private TERenderer ter = new TERenderer();
+    private static TETile[][] TABLE;
     private HashMap<Integer, Room> roomContainer = new HashMap<>();
     private LinkedList<Room> treeList = new LinkedList<>();
 
@@ -35,23 +38,40 @@ public class World {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.TABLE = table;
-        //this.ter = ter;
         makeSeed(seed.toLowerCase());
         this.RANDOM = new Random(SEED);
-        //this.SEED = makeSeed(seed);
-        //this.save = makeSave(seed);
-        //ter.initialize(WIDTH, HEIGHT);
         fillNothing();
         generatWorld();
         generateAvatar();
         generateLockdoor();
+    }
+
+    public void secondWorld(TETile[][] table, int width, int height, long seed) {
+        ter.initialize(WIDTH, HEIGHT, 0, 0);
+        fillNothing();
+        generatWorld();
+        generateAvatar();
+        generateLockdoor();
+        ter.renderFrame(TABLE);
+
+    }
+
+    public void replay() {
+        if (!beforeLoad.equals("")) {
+            moveReplay(beforeLoad);
+        }
+        if (!afterLoad.equals("")) {
+            moveReplay(afterLoad);
+        }
+    }
+
+    public void load() {
         if (!beforeLoad.equals("")) {
             moveLoad(beforeLoad);
         }
         if (!afterLoad.equals("")) {
             moveLoad(afterLoad);
         }
-        //ter.renderFrame(TABLE);
     }
 
     private void makeSeed(String input) {
@@ -65,8 +85,6 @@ public class World {
             save = input.substring(0, index) + 's';
             seed = input.substring(1, index);
             SEED = Long.parseLong(seed);
-            //System.out.println(SEED);
-            //System.out.println(save);
             seed = "";
             index += 1;
             for (int i = index; i < input.length(); i++) {
@@ -81,8 +99,6 @@ public class World {
             save = load.substring(0, index) + 's';
             seed = load.substring(1, index);
             SEED = Long.parseLong(seed);
-            //System.out.println(SEED);
-            //System.out.println(save);
             seed = "";
             index += 1;
             for (int i = index; i < load.length(); i++) {
@@ -103,10 +119,10 @@ public class World {
 
     public void generatWorld() {
         int count = 0;
-        for (int i = 5; i < WIDTH - 5; i += 1) {
+        for (int i = 3; i < WIDTH - 3; i += 1) {
             int numberOfrectangle = RANDOM.nextInt(2);
             for (int j = 0; j < numberOfrectangle; j++) {
-                int y = RANDOM.nextInt(HEIGHT - 7) + 5;
+                int y = RANDOM.nextInt(HEIGHT - 10) + 2;
                 int yEnd = y + 3 + RANDOM.nextInt(6);
                 int xEnd = i + 3 + RANDOM.nextInt(6);
                 if (boundary(TABLE, i, y, xEnd, yEnd)) {
@@ -232,131 +248,232 @@ public class World {
         return avatar;
     }
 
+    public TETile[][] table() {
+        return TABLE;
+    }
+
     public void generateLockdoor() {
-        int roomChoice = RANDOM.nextInt(WIDTH);
-        while (!roomContainer.containsKey(roomChoice)) {
-            roomChoice = RANDOM.nextInt(WIDTH);
+        int x = RANDOM.nextInt(WIDTH - 2) + 1;
+        int y = RANDOM.nextInt(HEIGHT - 2) + 1;
+        while (!(TABLE[x][y].equals(Tileset.WALL) && lockDoorchekcer(x, y))) {
+            x = RANDOM.nextInt(WIDTH);
+            y = RANDOM.nextInt(HEIGHT);
         }
-        Room newRoom = roomContainer.get(roomChoice);
-        int direction = RANDOM.nextInt(4);
-        switch (direction) {
-            case 0:
-                TABLE[newRoom.center().x + 1 - (newRoom.w + 1) / 2][newRoom.center().y]
-                        = Tileset.LOCKED_DOOR;
-                break;
-            case 1:
-                TABLE[newRoom.center().x + (newRoom.w + 1) / 2][newRoom.center().y]
-                        = Tileset.LOCKED_DOOR;
-                break;
-            case 2:
-                TABLE[newRoom.center().x][newRoom.center().y - (newRoom.h + 1) / 2]
-                        = Tileset.LOCKED_DOOR;
-                break;
-            case 3:
-                TABLE[newRoom.center().x][newRoom.center().y + (newRoom.h + 1) / 2]
-                        = Tileset.LOCKED_DOOR;
-                break;
-            default:
-                break;
-        }
+        TABLE[x][y] = Tileset.LOCKED_DOOR;
     }
 
-    public Boolean move(boolean userTurn) {
-        Character input = null;
-        InputSource userInput = new KeyboardInputSource();
-        if (userInput.possibleNextInput()) {
-            input = userInput.getNextKey();
-        }
-        switch (input) {
-            case 'W':
-                //System.out.println("up");
-                Point up = new Point(avatar.x, avatar.y + 1);
-                movingAvatar(up);
-                //ter.renderFrame(TABLE);
-                save += "W";
-                return true;
-            case 'S':
-                //System.out.println("down");
-                Point down = new Point(avatar.x, avatar.y - 1);
-                movingAvatar(down);
-                //ter.renderFrame(TABLE);
-                save += "S";
-                return true;
-            case 'A':
-                //System.out.println("left");
-                Point left = new Point(avatar.x - 1, avatar.y);
-                movingAvatar(left);
-                //ter.renderFrame(TABLE);
-                save += "A";
-                return true;
-            case 'D':
-                //System.out.println("right");
-                Point right = new Point(avatar.x + 1, avatar.y);
-                movingAvatar(right);
-                //ter.renderFrame(TABLE);
-                save += "D";
-                return true;
-            case 'Q':
-                System.out.println(save);
-                saveFile(save);
-                //System.out.println("quit");
-                System.exit(0);
-                return false;
-            default:
-                //System.out.println("default");
-        }
-        return true;
+    private boolean lockDoorchekcer(int x, int y) {
+        return TABLE[x + 1][y].equals(Tileset.FLOOR) || TABLE[x - 1][y].equals(Tileset.FLOOR)
+                || TABLE[x][y + 1].equals(Tileset.FLOOR) || TABLE[x][y - 1].equals(Tileset.FLOOR);
     }
 
-    public void moveLoad(String user) {
-        //Character input = null;
-        //System.out.println("moveLoad");
-        for (int i = 0; i < user.length(); i++) {
-            //System.out.println("moveLoad for loop");
-            //StdDraw.pause(500);
-            switch (user.charAt(i)) {
-                case 'w':
-                    //System.out.println("up");
-                    Point up = new Point(avatar.x, avatar.y + 1);
-                    movingAvatar(up);
-                    //ter.renderFrame(TABLE);
-                    save += "w";
-                    break;
-                case 's':
-                    //System.out.println("down");
-                    Point down = new Point(avatar.x, avatar.y - 1);
-                    movingAvatar(down);
-                    //ter.renderFrame(TABLE);
-                    save += "s";
-                    break;
-                case 'a':
-                    //System.out.println("left");
-                    Point left = new Point(avatar.x - 1, avatar.y);
-                    movingAvatar(left);
-                    //ter.renderFrame(TABLE);
-                    save += "a";
-                    break;
-                case 'd':
-                    //System.out.println("right");
-                    Point right = new Point(avatar.x + 1, avatar.y);
-                    movingAvatar(right);
-                    //ter.renderFrame(TABLE);
-                    save += "d";
-                    break;
-                case ':':
-                    //System.out.println(save);
-                    saveFile(save);
-                    //System.out.println("quit");
-                    //System.exit(0);
-                    break;
-                default:
-                    //System.out.println("default");
+    public TETile[][] move() {
+        Character input;
+        while (true) {
+            int x = (int) StdDraw.mouseX();
+            int y = (int) StdDraw.mouseY();
+            hud(x, y);
+            clock();
+            StdDraw.enableDoubleBuffering();
+            StdDraw.show();
+            if (StdDraw.hasNextKeyTyped()) {
+                input = Character.toUpperCase(StdDraw.nextKeyTyped());
+                switch (input) {
+                    case 'W':
+                        Point up = new Point(avatar.x, avatar.y + 1);
+                        movingAvatar(up);
+                        save += "W";
+                        if (TABLE[avatar.x][avatar.y + 1].equals(Tileset.LOCKED_DOOR)) {
+                            TABLE[avatar.x][avatar.y + 1] = Tileset.UNLOCKED_DOOR;
+                            //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                            //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                            return TABLE;
+                        }
+                        return TABLE;
+                    case 'S':
+                        Point down = new Point(avatar.x, avatar.y - 1);
+                        movingAvatar(down);
+                        if (TABLE[avatar.x][avatar.y - 1].equals(Tileset.LOCKED_DOOR)) {
+                            TABLE[avatar.x][avatar.y - 1] = Tileset.UNLOCKED_DOOR;
+                            //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                            ///secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                            return TABLE;
+                        }
+                        save += "S";
+                        return TABLE;
+                    case 'A':
+                        Point left = new Point(avatar.x - 1, avatar.y);
+                        movingAvatar(left);
+                        if (TABLE[avatar.x - 1][avatar.y].equals(Tileset.LOCKED_DOOR)) {
+                            TABLE[avatar.x - 1][avatar.y] = Tileset.UNLOCKED_DOOR;
+                            //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                            //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                            return TABLE;
+                        }
+                        save += "A";
+                        return TABLE;
+                    case 'D':
+                        Point right = new Point(avatar.x + 1, avatar.y);
+                        movingAvatar(right);
+                        if (TABLE[avatar.x + 1][avatar.y].equals(Tileset.LOCKED_DOOR)) {
+                            TABLE[avatar.x + 1][avatar.y] = Tileset.UNLOCKED_DOOR;
+                            //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                            //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                            return TABLE;
+                        }
+                        save += "D";
+                        return TABLE;
+                    case ':':
+                        while (true) {
+                            if (StdDraw.hasNextKeyTyped()) {
+                                if (Character.toUpperCase(StdDraw.nextKeyTyped()) == 'Q') {
+                                    saveFile(save);
+                                    System.exit(0);
+                                    return TABLE;
+                                }
+                            }
+                        }
+                    default:
+                        return TABLE;
+                }
             }
         }
     }
 
+    private long randomSeed() {
+
+        return RANDOM.nextLong();
+    }
+
+    private void hud(int x, int y) {
+        if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT) {
+            if (TABLE[x][y].equals(Tileset.NOTHING)) {
+                ter.renderFrame(TABLE);
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.text(5, HEIGHT - 2, "Nothing");
+            } else if (TABLE[x][y].equals(Tileset.WALL)) {
+                ter.renderFrame(TABLE);
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.text(5, HEIGHT - 2, "Wall");
+            } else if (TABLE[x][y].equals(Tileset.FLOOR)) {
+                ter.renderFrame(TABLE);
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.text(5, HEIGHT - 2, "Floor");
+            } else if (TABLE[x][y].equals(Tileset.AVATAR)) {
+                ter.renderFrame(TABLE);
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.text(5, HEIGHT - 2, "Avatar");
+            } else if (TABLE[x][y].equals(Tileset.LOCKED_DOOR)) {
+                ter.renderFrame(TABLE);
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.text(5, HEIGHT - 2, "Locked Door");
+            }
+        }
+    }
+
+    public void clock() {
+        String timeStamp
+                = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                .format(Calendar.getInstance().getTime());
+        StdDraw.setPenColor(Color.CYAN);
+        StdDraw.text(5, HEIGHT - 1, timeStamp);
+    }
+
+    public void moveReplay(String user) {
+        ter.initialize(WIDTH, HEIGHT, 0, 0);
+        for (int i = 0; i < user.length(); i++) {
+            StdDraw.pause(170);
+            switch (user.charAt(i)) {
+                case 'w':
+                    Point up = new Point(avatar.x, avatar.y + 1);
+                    movingAvatar(up);
+                    if (TABLE[avatar.x][avatar.y + 1].equals(Tileset.LOCKED_DOOR)) {
+                        TABLE[avatar.x][avatar.y + 1] = Tileset.UNLOCKED_DOOR;
+                        //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                        //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                    }
+                    ter.renderFrame(TABLE);
+                    save += "w";
+                    break;
+                case 's':
+                    Point down = new Point(avatar.x, avatar.y - 1);
+                    movingAvatar(down);
+                    if (TABLE[avatar.x][avatar.y - 1].equals(Tileset.LOCKED_DOOR)) {
+                        TABLE[avatar.x][avatar.y - 1] = Tileset.UNLOCKED_DOOR;
+                        //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                        //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                    }
+                    ter.renderFrame(TABLE);
+                    save += "s";
+                    break;
+                case 'a':
+                    Point left = new Point(avatar.x - 1, avatar.y);
+                    movingAvatar(left);
+                    if (TABLE[avatar.x - 1][avatar.y].equals(Tileset.LOCKED_DOOR)) {
+                        TABLE[avatar.x - 1][avatar.y] = Tileset.UNLOCKED_DOOR;
+                        //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                        //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                    }
+                    ter.renderFrame(TABLE);
+                    save += "a";
+                    break;
+                case 'd':
+                    Point right = new Point(avatar.x + 1, avatar.y);
+                    movingAvatar(right);
+                    if (TABLE[avatar.x + 1][avatar.y].equals(Tileset.LOCKED_DOOR)) {
+                        TABLE[avatar.x + 1][avatar.y] = Tileset.UNLOCKED_DOOR;
+                        //TETile[][] newtable = new TETile[WIDTH][HEIGHT];
+                        //secondWorld(newtable, WIDTH, HEIGHT, randomSeed());
+                    }
+                    ter.renderFrame(TABLE);
+                    save += "d";
+                    break;
+                case ':':
+                    saveFile(save);
+                    System.exit(0);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void moveLoad(String user) {
+        for (int i = 0; i < user.length(); i++) {
+            switch (user.charAt(i)) {
+                case 'w':
+                    Point up = new Point(avatar.x, avatar.y + 1);
+                    movingAvatar(up);
+                    save += "w";
+                    break;
+                case 's':
+                    Point down = new Point(avatar.x, avatar.y - 1);
+                    movingAvatar(down);
+                    save += "s";
+                    break;
+                case 'a':
+                    Point left = new Point(avatar.x - 1, avatar.y);
+                    movingAvatar(left);
+                    save += "a";
+                    break;
+                case 'd':
+                    Point right = new Point(avatar.x + 1, avatar.y);
+                    movingAvatar(right);
+                    save += "d";
+                    break;
+                case ':':
+                    saveFile(save);
+                    break;
+                default:
+            }
+        }
+    }
+
+
+
     private void movingAvatar(Point p) {
         if (TABLE[p.x][p.y].equals(Tileset.FLOOR)) {
+                //|| TABLE[p.x][p.y].equals(Tileset.UNLOCKED_DOOR)) {
             TABLE[avatar.x][avatar.y] = Tileset.FLOOR;
             TABLE[p.x][p.y] = Tileset.AVATAR;
             avatar.x = p.x;
@@ -364,6 +481,7 @@ public class World {
         }
     }
 
+    //@Source from saveDemo
     private static void saveFile(String s) {
         File file = new File("./save_data.txt");
         try {
@@ -382,6 +500,7 @@ public class World {
         }
     }
 
+    //@Source from saveDemo
     private static String loadFile() {
         File f = new File("./save_data.txt");
         if (f.exists()) {

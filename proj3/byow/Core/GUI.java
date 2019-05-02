@@ -1,28 +1,25 @@
 package byow.Core;
 
-import byow.InputDemo.InputSource;
-import byow.InputDemo.KeyboardInputSource;
 import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.File;
 
 public class GUI {
     private int WIDTH;
     private int HEIGHT;
     private TERenderer ter;
-    private TETile[][] finalWorldFrame;
-    private Point avatar;
 
     public GUI(int width, int height) {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.ter = ter;
-        this.avatar = new Point();
-        finalWorldFrame = new TETile[WIDTH][HEIGHT];
     }
 
     public void menu() {
@@ -37,74 +34,48 @@ public class GUI {
     }
 
     public String input() {
-        Character input = null;
-        InputSource userInput = new KeyboardInputSource();
-        if (userInput.possibleNextInput()) {
-            input = userInput.getNextKey();
+        Character input;
+        while (true) {
+            if (StdDraw.hasNextKeyTyped()) {
+                input = Character.toUpperCase(StdDraw.nextKeyTyped());
+                System.out.println(input);
+                switch (input) {
+                    case 'N':
+                        basicGui();
+                        StdDraw.text(WIDTH / 2, HEIGHT / 2 - 6, "Seed:");
+                        StdDraw.show();
+                        return newWorld();
+                    case 'L':
+                        return loadFile();
+                    case 'Q':
+                        System.exit(0);
+                        break;
+                    default:
+                        basicGui();
+                        StdDraw.setPenColor(Color.RED);
+                        StdDraw.text(WIDTH / 2, HEIGHT / 2 - 8, "Wrong Input");
+                        StdDraw.show();
+                        StdDraw.clear(Color.RED);
+                }
+            }
         }
-        switch (input) {
-            case 'N':
-                basicGui();
-                System.out.println("switch");
-                StdDraw.text(WIDTH / 2, HEIGHT / 2 - 6, "Seed:");
-                StdDraw.show();
-                //Engine engine = new Engine();
-                //finalWorldFrame = engine.interactWithInputString(newWorld());
-                return newWorld();
-            case 'L':
-                System.out.println("Load Game!");
-                break;
-            case 'Q':
-                System.out.println("Quit Game!");
-                break;
-            /*case 'n':
-                System.out.println("new Game!");
-                break;
-            case 'l':
-                System.out.println("new Game!");
-                break;
-            case 'q':
-                System.out.println("quit Game!");
-                break;*/
-            default:
-                System.out.println("Wrong input");
-        }
-        return null;
     }
-
-    /*public void move() {
-        Character input = null;
-        InputSource userInput = new KeyboardInputSource();
-        if (userInput.possibleNextInput()) {
-            input = userInput.getNextKey();
-        }
-        switch(input) {
-            case 'w':
-                finalWorldFrame[1][1] = Tileset.GRASS;
-                finalWorldFrame[2][2] = Tileset.GRASS;
-                ter.renderFrame(finalWorldFrame);
-        }
-    }*/
-
     private String newWorld() {
         char input = '.';
         String result = "";
         int x = 7;
-        InputSource userInput = new KeyboardInputSource();
         while (input != 'S') {
-            if (userInput.possibleNextInput()) {
-                input = userInput.getNextKey();
+            if (StdDraw.hasNextKeyTyped()) {
+                input = Character.toUpperCase(StdDraw.nextKeyTyped());
+                result = result + input;
+                basicGui();
+                StdDraw.text(WIDTH / 2, HEIGHT / 2 - 6, "Seed: ");
+                StdDraw.text(WIDTH / 2 + x / 2, HEIGHT / 2 - 6, result);
+                StdDraw.show();
+                x += 1;
             }
-            result = result + input;
-            basicGui();
-            System.out.println("newWorld");
-            StdDraw.text(WIDTH / 2, HEIGHT / 2 - 6, "Seed: ");
-            StdDraw.text(WIDTH / 2 + x / 2, HEIGHT / 2 - 6, result);
-            StdDraw.show();
-            x += 1;
         }
         result = 'N' + result;
-        System.out.println(result);
         return result;
     }
 
@@ -123,9 +94,25 @@ public class GUI {
         StdDraw.text(WIDTH / 2, HEIGHT / 2 - 4, "Quit: Press(Q)");
     }
 
-    /*private boolean userChoice() {
-        switch () {
-
+    //@Source from saveDemo
+    private static String loadFile() {
+        File f = new File("./save_data.txt");
+        if (f.exists()) {
+            try {
+                FileInputStream fs = new FileInputStream(f);
+                ObjectInputStream os = new ObjectInputStream(fs);
+                return (String) os.readObject();
+            } catch (FileNotFoundException e) {
+                System.out.println("file not found");
+                System.exit(0);
+            } catch (IOException e) {
+                System.out.println(e);
+                System.exit(0);
+            } catch (ClassNotFoundException e) {
+                System.out.println("class not found");
+                System.exit(0);
+            }
         }
-    }*/
+        return null;
+    }
 }

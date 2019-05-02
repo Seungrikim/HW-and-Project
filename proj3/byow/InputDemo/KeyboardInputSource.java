@@ -12,7 +12,7 @@ public class KeyboardInputSource implements InputSource {
     }*/
 
     public char getNextKey() {
-        while (true) {
+       /* while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char c = Character.toUpperCase(StdDraw.nextKeyTyped());
                 if (PRINT_TYPED_KEYS) {
@@ -20,10 +20,18 @@ public class KeyboardInputSource implements InputSource {
                 }
                 return c;
             }
+        }*/
+
+        //if (StdDraw.hasNextKeyTyped()) {
+            char c = Character.toUpperCase(StdDraw.nextKeyTyped());
+            if (PRINT_TYPED_KEYS) {
+                System.out.print(c);
+            }
+            return c;
         }
-    }
+
 
     public boolean possibleNextInput() {
-        return true;
+        return StdDraw.hasNextKeyTyped();
     }
 }
