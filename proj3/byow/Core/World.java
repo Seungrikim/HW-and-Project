@@ -367,6 +367,10 @@ public class World {
                 ter.renderFrame(TABLE);
                 StdDraw.setPenColor(Color.WHITE);
                 StdDraw.text(5, HEIGHT - 2, "Locked Door");
+            } else if (TABLE[x][y].equals(Tileset.UNLOCKED_DOOR)) {
+                ter.renderFrame(TABLE);
+                StdDraw.setPenColor(Color.WHITE);
+                StdDraw.text(5, HEIGHT - 2, "Unlocked Door");
             }
         }
     }
